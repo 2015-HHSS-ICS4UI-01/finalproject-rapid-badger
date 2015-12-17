@@ -9,9 +9,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.levels.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.models.Enemy;
+import com.mygdx.models.Entity;
 
 /**
  *
@@ -30,8 +33,12 @@ public class WorldRenderer {
     private float clickX;
     private float clickY;
     
+    private Entity currentSelected;
+    
+    private Array<Enemy> enemies;
     
     public WorldRenderer(World w){
+        enemies = new Array<Enemy>();
         world = w;
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
@@ -59,7 +66,10 @@ public class WorldRenderer {
     }
     
     public void Click (float x, float y) {
-        
+        Enemy closest;
+        for(Enemy e: enemies) {
+            
+        }
     }
     
     public void move(float currentX, float currentY) {

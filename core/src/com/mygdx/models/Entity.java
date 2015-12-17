@@ -43,8 +43,13 @@ public class Entity {
         units = setUnits;
     }
     
+    public void Move(int newX, int newY) {
+        place.x = newX;
+        place.y = newY;
+    }
+    
     /**
-     * Determanes which side wins a battle
+     * Determines which side wins a battle
      * @param a Doing battle
      * @param b Doing battle
      */
