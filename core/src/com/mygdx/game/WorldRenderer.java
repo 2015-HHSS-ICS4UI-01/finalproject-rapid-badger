@@ -27,6 +27,9 @@ public class WorldRenderer {
     
     private SpriteBatch batch;
     
+    private float clickX;
+    private float clickY;
+    
     
     public WorldRenderer(World w){
         world = w;
@@ -53,6 +56,14 @@ public class WorldRenderer {
     
     public void resize (int width, int height) {
         //viewport.update(width, height);
+    }
+    
+    public void Click (float x, float y) {
+        
+    }
+    
+    public void move(float currentX, float currentY) {
+        
     }
     
 }

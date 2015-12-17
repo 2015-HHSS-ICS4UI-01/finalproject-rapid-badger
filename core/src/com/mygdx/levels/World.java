@@ -15,7 +15,16 @@ public class World {
     private Player player;
     
     public World() {
-        player = new Player(0, 0, 10, 10);
+        player = new Player();
+        level1();
+    }
+    
+    private void level1() {
+        
+    }
+    
+    private void level2() {
+        
     }
     
     

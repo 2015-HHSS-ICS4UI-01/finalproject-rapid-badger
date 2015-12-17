@@ -8,10 +8,8 @@ package com.mygdx.models;
  *
  * @author johns6971
  */
-public class Player  {
-    
-    //the player controlling friendly units
-    public Player() {
-        
+public class FriendlyUnit extends Entity {
+    public FriendlyUnit(float x, float y, float width, float height) {
+        super(x, y, width, height);
     }
 }
