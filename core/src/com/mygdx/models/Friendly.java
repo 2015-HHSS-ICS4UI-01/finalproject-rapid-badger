@@ -8,8 +8,8 @@ package com.mygdx.models;
  *
  * @author johns6971
  */
-public class FriendlyUnit extends Entity {
-    public FriendlyUnit(float x, float y, float width, float height) {
+public class Friendly extends Entity {
+    public Friendly(float x, float y, float width, float height) {
         super(x, y, width, height);
     }
 }
