@@ -64,6 +64,9 @@ public class Entity {
         } else if (b.unitCount() < a.unitCount()) {
             a.setUnits(a.unitCount() - b.unitCount());
             b.setUnits(0);
+        } else {
+            a.setUnits(a.unitCount()/2);
+            b.setUnits(b.unitCount()/2);
         }
     }
     
