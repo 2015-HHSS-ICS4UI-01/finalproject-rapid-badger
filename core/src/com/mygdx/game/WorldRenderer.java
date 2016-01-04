@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.models.Enemy;
 import com.mygdx.models.Entity;
+import com.mygdx.models.Friendly;
 
 /**
  *
@@ -35,9 +36,11 @@ public class WorldRenderer {
     private Entity currentSelected;
     
     private Array<Enemy> enemies;
+    private Array<Friendly> friendlies;
     
     public WorldRenderer(World w){
         enemies = new Array<Enemy>();
+        friendlies = new Array<Friendly>();
         world = w;
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
@@ -58,6 +61,28 @@ public class WorldRenderer {
         //put stuff here
         batch.end();
         
+    }
+    
+        /**
+     * Determines which side wins a battle.
+     * @param a Friendly doing battle.
+     * @param b Enemy doing battle.
+     */
+    public void battle(Friendly a, Enemy b) {
+        //if a has more troops
+        if(a.unitCount() < b.unitCount()) {
+            //if a has more troops then it has as many troops as the difference between a's and b's troops
+            b.setUnits(b.unitCount() - a.unitCount());
+            a.setUnits(0);
+            
+            //if b has more troops
+        } else if (b.unitCount() < a.unitCount()) {
+            a.setUnits(a.unitCount() - b.unitCount());
+            b.setUnits(0);
+        } else {
+            a.setUnits(a.unitCount()/2);
+            b.setUnits(b.unitCount()/2);
+        }
     }
     
     public void resize (int width, int height) {
