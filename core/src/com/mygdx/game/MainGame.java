@@ -50,9 +50,6 @@ public class MainGame implements Screen {
             player.Click(clickX, clickY, renderer.getEnemies());
         }
         
-        
-        
-        
         renderer.render(deltaTime);
     }
 
