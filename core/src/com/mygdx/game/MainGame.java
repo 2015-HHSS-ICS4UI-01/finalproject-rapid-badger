@@ -47,7 +47,7 @@ public class MainGame implements Screen {
         if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             clickX = Gdx.input.getX();
             clickY = Gdx.input.getY();
-            renderer.Click(clickX, clickY);
+            player.Click(clickX, clickY, renderer.getEnemies());
         }
         
         

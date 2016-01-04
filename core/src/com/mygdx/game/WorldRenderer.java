@@ -8,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.screens.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -62,18 +61,17 @@ public class WorldRenderer {
     }
     
     public void resize (int width, int height) {
-        //viewport.update(width, height);
+        viewport.update(width, height);
     }
     
-    public void Click (float x, float y) {
-        Enemy closest;
-        for(Enemy e: enemies) {
-            
-        }
-    }
+    
     
     public void move(float currentX, float currentY) {
         
+    }
+    
+    public Array<Enemy> getEnemies() {
+        return enemies;
     }
     
 }
