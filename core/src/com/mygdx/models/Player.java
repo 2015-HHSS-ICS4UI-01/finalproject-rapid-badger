@@ -18,10 +18,6 @@ public class Player  {
         
     }
     
-    public void Click (float x, float y, Array<Enemy> enemies) {
-        Enemy closest;
-        for(Enemy e: enemies) {
-            
-        }
-    }
+    
 }
+

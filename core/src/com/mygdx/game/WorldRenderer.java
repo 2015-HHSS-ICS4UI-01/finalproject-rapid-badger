@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.models.Enemy;
 import com.mygdx.models.Entity;
 import com.mygdx.models.Friendly;
+import com.mygdx.models.Player;
 
 /**
  *
@@ -30,8 +31,6 @@ public class WorldRenderer {
     
     private SpriteBatch batch;
     
-    private float clickX;
-    private float clickY;
     
     private Entity currentSelected;
     
@@ -58,7 +57,7 @@ public class WorldRenderer {
         batch.setProjectionMatrix(camera.combined);
         
         batch.begin();
-        //put stuff here
+        //put stuff here once the one guy who has the maps gets back from Cuba
         batch.end();
         
     }
@@ -97,6 +96,33 @@ public class WorldRenderer {
     
     public Array<Enemy> getEnemies() {
         return enemies;
+    }
+    
+    public Array<Friendly> getFriendlies() {
+        return friendlies;
+    }
+    
+    public void click (float x, float y) {
+        //Checks if player clicked enemy unit
+        for(Enemy e: enemies) {
+            if(e.getX() == x && e.getY() == y) {
+                currentSelected = e;
+            }
+        }
+        //Checks if player clicked a friendly unit
+        for(Friendly f: friendlies) {
+            if(f.getX() == x && f.getY() == y) {
+                currentSelected = f;
+            }
+        }
+        //if statement gets to here the player did not click a enemy or friendly
+        //so method returns null
+        currentSelected = null;
+    }
+
+    
+    public Entity getCurrentSelected() {
+        return currentSelected;
     }
     
 }
