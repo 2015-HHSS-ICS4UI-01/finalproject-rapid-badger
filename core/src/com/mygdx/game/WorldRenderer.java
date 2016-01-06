@@ -31,7 +31,7 @@ public class WorldRenderer {
     
     private SpriteBatch batch;
     
-    
+    private Entity lastSelected;
     private Entity currentSelected;
     
     private Array<Enemy> enemies;
@@ -84,6 +84,33 @@ public class WorldRenderer {
         }
     }
     
+    /**
+     * Finds which unit the player clicked.
+     * @param x the X coordinate of the click
+     * @param y the Y coordinate of the click
+     */
+    public void click (float x, float y) {
+        //moves the currently selected unit to the last selected slot
+        if(currentSelected != null) {
+            lastSelected = currentSelected;
+        }
+        //Checks if player clicked enemy unit
+        for(Enemy e: enemies) {
+            if(e.getX() == x && e.getY() == y) {
+                currentSelected = e;
+            }
+        }
+        //Checks if player clicked a friendly unit
+        for(Friendly f: friendlies) {
+            if(f.getX() == x && f.getY() == y) {
+                currentSelected = f;
+            }
+        }
+        //if statement gets to here the player did not click a enemy or friendly
+        //so method returns null
+        currentSelected = null;
+    }
+    
     public void resize (int width, int height) {
         viewport.update(width, height);
     }
@@ -101,25 +128,6 @@ public class WorldRenderer {
     public Array<Friendly> getFriendlies() {
         return friendlies;
     }
-    
-    public void click (float x, float y) {
-        //Checks if player clicked enemy unit
-        for(Enemy e: enemies) {
-            if(e.getX() == x && e.getY() == y) {
-                currentSelected = e;
-            }
-        }
-        //Checks if player clicked a friendly unit
-        for(Friendly f: friendlies) {
-            if(f.getX() == x && f.getY() == y) {
-                currentSelected = f;
-            }
-        }
-        //if statement gets to here the player did not click a enemy or friendly
-        //so method returns null
-        currentSelected = null;
-    }
-
     
     public Entity getCurrentSelected() {
         return currentSelected;
