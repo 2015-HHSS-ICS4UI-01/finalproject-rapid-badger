@@ -65,13 +65,13 @@ public class WorldRenderer {
      * @param b Enemy doing battle.
      */
     public void battle(Entity a, Entity b) {
-        //if a has more troops
+        //if b has more troops
         if(a.unitCount() < b.unitCount()) {
             //if a has more troops then it has as many troops as the difference between a's and b's troops
             b.setUnits(b.unitCount() - a.unitCount());
             a.setUnits(0);
             
-            //if b has more troops
+            //if a has more troops
         } else if (b.unitCount() < a.unitCount()) {
             a.setUnits(a.unitCount() - b.unitCount());
             b.setUnits(0);
