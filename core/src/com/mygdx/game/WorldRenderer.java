@@ -125,7 +125,10 @@ public class WorldRenderer {
                     }
                 }
             } else {
-                 currentSelected.Move((int)x, (int)y);
+                if((int)x < currentSelected.getX() + 2 && (int)x > currentSelected.getX() - 2 &&
+                        (int)y < currentSelected.getY() + 2 && (int)y > currentSelected.getY() - 2) {
+                    currentSelected.Move((int)x, (int)y);
+                }
             }
         } else if (currentState == ATTACKING) {
             if(currentSelected == null) {
