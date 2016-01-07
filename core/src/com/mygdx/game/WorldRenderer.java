@@ -125,16 +125,7 @@ public class WorldRenderer {
                     }
                 }
             } else {
-                for(Entity p1: player1Units) {
-                    if(p1.getX() == x && p1.getY() == y) {
-                        currentSelected.Move((int)x, (int)y);
-                    }
-                }
-                for(Entity p2: player2Units) {
-                    if(p2.getX() == x && p2.getY() == y) {
-                        currentSelected.Move((int)x, (int)y);
-                    }
-                }
+                 currentSelected.Move((int)x, (int)y);
             }
         } else if (currentState == ATTACKING) {
             if(currentSelected == null) {
