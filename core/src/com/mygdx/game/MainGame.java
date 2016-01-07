@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.screens.World;
 import com.mygdx.models.Entity;
-import com.mygdx.models.Player;
 
 /**
  *
@@ -24,7 +23,6 @@ public class MainGame implements Screen {
     private final int V_HEIGHT = 600;
     
     private World theWorld;
-    private Player player;
     private WorldRenderer renderer;
     
     
@@ -33,7 +31,6 @@ public class MainGame implements Screen {
     
     public MainGame() {
         theWorld = new World();
-        player = theWorld.getPlayer();
         renderer = new WorldRenderer(theWorld);
     }
 

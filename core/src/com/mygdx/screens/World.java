@@ -4,7 +4,6 @@
  */
 package com.mygdx.screens;
 
-import com.mygdx.models.Player;
 
 /**
  *
@@ -12,10 +11,8 @@ import com.mygdx.models.Player;
  */
 public class World {
     
-    private Player player;
     
     public World() {
-        player = new Player();
         level1();
     }
     
@@ -28,9 +25,6 @@ public class World {
     }
     
     
-    public Player getPlayer() {
-        return player;
-    }
     
     
 }
