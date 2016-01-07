@@ -62,7 +62,7 @@ public class WorldRenderer {
         
     }
     
-        /**
+    /**
      * Determines which side wins a battle.
      * @param a Friendly doing battle.
      * @param b Enemy doing battle.
