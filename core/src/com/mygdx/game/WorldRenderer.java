@@ -13,6 +13,7 @@ import com.mygdx.screens.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.models.Entity;
+import java.util.Random;
 
 /**
  *
@@ -76,8 +77,18 @@ public class WorldRenderer {
             a.setUnits(a.unitCount() - b.unitCount());
             b.setUnits(0);
         } else {
-            a.setUnits(a.unitCount()/2);
-            b.setUnits(b.unitCount()/2);
+            int rand = randNum();
+            if(rand == 3) {
+                a.setUnits(a.unitCount()/2);
+                b.setUnits(b.unitCount()/2);
+            } else if(rand == 2) {
+                a.setUnits(a.unitCount()/2-2);
+                b.setUnits(b.unitCount()/2);
+            } else {
+                a.setUnits(a.unitCount()/2);
+                b.setUnits(b.unitCount()/2-2);
+            }
+            
         }
     }
     
@@ -128,6 +139,12 @@ public class WorldRenderer {
     
     public Entity getCurrentSelected() {
         return currentSelected;
+    }
+    
+    private int randNum() {
+        Random rand = new Random();
+        int  n = rand.nextInt(3) + 1;
+        return n;
     }
     
 }
