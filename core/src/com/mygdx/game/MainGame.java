@@ -6,6 +6,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -46,6 +47,10 @@ public class MainGame implements Screen {
             clickY = Gdx.input.getY();
             System.out.println(clickX + " " + clickY);
             renderer.click(clickX, clickY);
+        } else if (Gdx.input.isKeyJustPressed(Keys.M)) {
+            renderer.setState(WorldRenderer.State.MOVING);
+        } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
+            renderer.setState(WorldRenderer.State.ATTACKING);
         }
         
         renderer.render(deltaTime);
