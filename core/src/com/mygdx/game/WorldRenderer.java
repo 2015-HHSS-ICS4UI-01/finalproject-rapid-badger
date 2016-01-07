@@ -137,7 +137,11 @@ public class WorldRenderer {
                 }
             }
         } else if (currentState == ATTACKING) {
-
+            if(currentSelected == null) {
+                
+            } else {
+                
+            }
         }
     }
 
