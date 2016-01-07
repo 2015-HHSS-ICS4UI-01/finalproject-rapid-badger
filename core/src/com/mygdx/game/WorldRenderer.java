@@ -138,9 +138,31 @@ public class WorldRenderer {
             }
         } else if (currentState == ATTACKING) {
             if(currentSelected == null) {
-                
+                for(Entity p1: player1Units) {
+                    if(p1.getX() == 2 && p1.getY() == y) {
+                        currentSelected = p1;
+                    }
+                }
+                for(Entity p2: player2Units) {
+                    if(p2.getX() == x && p2.getY() == y) {
+                        currentSelected = p2;
+                    } else {
+                        currentSelected = null;
+                    }
+                }
             } else {
-                
+                for(Entity p1: player1Units) {
+                    if(p1.getX() == x && p1.getY() == y) {
+                        battle(currentSelected, p1);
+                    }
+                }
+                for(Entity p2: player2Units) {
+                    if(p2.getX() == x && p2.getY() == y) {
+                        battle(currentSelected, p2);
+                    } else {
+                        currentSelected = null;
+                    }
+                }
             }
         }
     }
