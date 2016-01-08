@@ -171,7 +171,8 @@ public class WorldRenderer {
     }
 
     public void setState(State s) {
-        s = currentState;
+        currentState = s;
+        System.out.println(currentState);
     }
 
     private int randNum() {
