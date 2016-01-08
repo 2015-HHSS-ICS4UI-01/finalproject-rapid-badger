@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.screens.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import static com.mygdx.game.WorldRenderer.State.ATTACKING;
@@ -24,32 +23,26 @@ import java.util.Random;
  */
 public class WorldRenderer {
 
-    World world;
-
     private Viewport viewport;
     private OrthographicCamera camera;
     private final int V_WIDTH = 800;
     private final int V_HEIGHT = 600;
-
     private SpriteBatch batch;
-
     private Entity lastSelected;
     private Entity currentSelected;
-
     private Array<Entity> player1Units;
     private Array<Entity> player2Units;
-
     private State currentState;
 
     public enum State {
+
         MOVING, ATTACKING, NOTHING
     }
 
-    public WorldRenderer(World w) {
+    public WorldRenderer() {
         currentState = NOTHING;
         player1Units = new Array<Entity>();
         player2Units = new Array<Entity>();
-        world = w;
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         viewport = new FitViewport(V_WIDTH, V_HEIGHT, camera);
@@ -101,8 +94,9 @@ public class WorldRenderer {
     }
 
     /**
-     * Finds which unit the player clicked.
-     * Checks if the player is selecting things for the first time or is doing an action. 
+     * Finds which unit the player clicked. Checks if the player is selecting
+     * things for the first time or is doing an action.
+     *
      * @param x the X coordinate of the click
      * @param y the Y coordinate of the click
      */
@@ -124,33 +118,33 @@ public class WorldRenderer {
                     }
                 }
             } else {
-                if((int)x < currentSelected.getX() + 2 && (int)x > currentSelected.getX() - 2 &&
-                        (int)y < currentSelected.getY() + 2 && (int)y > currentSelected.getY() - 2) {
-                    currentSelected.Move((int)x, (int)y);
+                if ((int) x < currentSelected.getX() + 2 && (int) x > currentSelected.getX() - 2
+                        && (int) y < currentSelected.getY() + 2 && (int) y > currentSelected.getY() - 2) {
+                    currentSelected.Move((int) x, (int) y);
                 }
             }
         } else if (currentState == ATTACKING) {
-            if(currentSelected == null) {
-                for(Entity p1: player1Units) {
-                    if(p1.getX() == 2 && p1.getY() == y) {
+            if (currentSelected == null) {
+                for (Entity p1 : player1Units) {
+                    if (p1.getX() == 2 && p1.getY() == y) {
                         currentSelected = p1;
                     }
                 }
-                for(Entity p2: player2Units) {
-                    if(p2.getX() == x && p2.getY() == y) {
+                for (Entity p2 : player2Units) {
+                    if (p2.getX() == x && p2.getY() == y) {
                         currentSelected = p2;
                     } else {
                         currentSelected = null;
                     }
                 }
             } else {
-                for(Entity p1: player1Units) {
-                    if(p1.getX() == x && p1.getY() == y) {
+                for (Entity p1 : player1Units) {
+                    if (p1.getX() == x && p1.getY() == y) {
                         battle(currentSelected, p1);
                     }
                 }
-                for(Entity p2: player2Units) {
-                    if(p2.getX() == x && p2.getY() == y) {
+                for (Entity p2 : player2Units) {
+                    if (p2.getX() == x && p2.getY() == y) {
                         battle(currentSelected, p2);
                     } else {
                         currentSelected = null;
@@ -185,5 +179,4 @@ public class WorldRenderer {
         int n = rand.nextInt(3) + 1;
         return n;
     }
-
 }
