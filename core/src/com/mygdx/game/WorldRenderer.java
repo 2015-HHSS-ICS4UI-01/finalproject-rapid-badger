@@ -42,7 +42,6 @@ public class WorldRenderer {
     private State currentState;
 
     public enum State {
-
         MOVING, ATTACKING, NOTHING
     }
 
@@ -103,7 +102,7 @@ public class WorldRenderer {
 
     /**
      * Finds which unit the player clicked.
-     *
+     * Checks if the player is selecting things for the first time or is doing an action. 
      * @param x the X coordinate of the click
      * @param y the Y coordinate of the click
      */
@@ -163,10 +162,6 @@ public class WorldRenderer {
 
     public void resize(int width, int height) {
         viewport.update(width, height);
-    }
-
-    public void move(float currentX, float currentY) {
-
     }
 
     public Array<Entity> getPlayer1units() {
