@@ -33,7 +33,9 @@ public class WorldRenderer {
     private Array<Entity> player1Units;
     private Array<Entity> player2Units;
     private State currentState;
-
+    private int turn;
+    private boolean player1Turn;
+    
     public enum State {
 
         MOVING, ATTACKING, NOTHING
@@ -46,6 +48,8 @@ public class WorldRenderer {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         viewport = new FitViewport(V_WIDTH, V_HEIGHT, camera);
+        turn = 1;
+        player1Turn = true;
     }
 
     public void render(float deltaTime) {
@@ -118,9 +122,15 @@ public class WorldRenderer {
                     }
                 }
             } else {
-                if ((int) x < currentSelected.getX() + 2 && (int) x > currentSelected.getX() - 2
-                        && (int) y < currentSelected.getY() + 2 && (int) y > currentSelected.getY() - 2) {
-                    currentSelected.Move((int) x, (int) y);
+                //Checking which way to move
+                if((int) x < currentSelected.getX() && (int) y < currentSelected.getY()) {
+                    currentSelected.Move((int) x + 1, (int) y + 1);
+                } else if((int) x > currentSelected.getX() && (int) y > currentSelected.getY()) {
+                    currentSelected.Move((int) x - 1, (int) y - 1);
+                } else if((int) x < currentSelected.getX() && (int) y > currentSelected.getY()) {
+                    currentSelected.Move((int) x + 1, (int) y - 1);
+                } else {
+                    currentSelected.Move((int) x - 1, (int) y + 1);
                 }
             }
         } else if (currentState == ATTACKING) {
@@ -151,6 +161,12 @@ public class WorldRenderer {
                     }
                 }
             }
+        }
+        turn++;
+        if(turn % 2 != 0) {
+            player1Turn = true;
+        } else {
+            player1Turn = false;
         }
     }
 

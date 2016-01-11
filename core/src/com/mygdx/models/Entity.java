@@ -39,8 +39,8 @@ public class Entity {
         return units;
     }
 
-    public void setUnits(int setUnits) {
-        units = setUnits;
+    public void setUnits(int newunits) {
+        units = newunits;
     }
 
     public void Move(int newX, int newY) {
