@@ -190,6 +190,15 @@ public class WorldRenderer {
         currentState = s;
         System.out.println(currentState);
     }
+    
+    public String getTurn() {
+        String turnString;
+        if(player1Turn) {
+            return turnString = "It is player 1's turn.";
+        } else {
+            return turnString = "It is player 2's turn.";
+        }
+    }
 
     private int randNum() {
         Random rand = new Random();

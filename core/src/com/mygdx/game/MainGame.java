@@ -28,6 +28,7 @@ public class MainGame implements Screen {
 
     public MainGame() {
         renderer = new WorldRenderer();
+        System.out.println(renderer.getTurn());
     }
 
     @Override
@@ -37,11 +38,13 @@ public class MainGame implements Screen {
 
     @Override
     public void render(float deltaTime) {
+        
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             clickX = Gdx.input.getX();
             clickY = Gdx.input.getY();
             System.out.println(clickX + " " + clickY);
             renderer.click(clickX, clickY);
+            System.out.println(renderer.getTurn());
         } else if (Gdx.input.isKeyJustPressed(Keys.M)) {
             renderer.setState(WorldRenderer.State.MOVING);
         } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
