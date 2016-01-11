@@ -45,6 +45,16 @@ public class WorldRenderer {
         currentState = NOTHING;
         player1Units = new Array<Entity>();
         player2Units = new Array<Entity>();
+        player1Units.add(new Entity(1, 1, 1, 1));
+        player1Units.add(new Entity (2, 2, 1, 1));
+        player2Units.add(new Entity (5, 5, 1, 1));
+        player2Units.add(new Entity (6, 6, 1, 1));
+        for(Entity e: player1Units) {
+            e.setPlayer("player1");
+        }
+        for(Entity e: player2Units) {
+            e.setPlayer("player2");
+        }
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         viewport = new FitViewport(V_WIDTH, V_HEIGHT, camera);
@@ -109,13 +119,13 @@ public class WorldRenderer {
             if (currentSelected == null) {
                 //Checks if player clicked enemy unit
                 for (Entity p1 : player1Units) {
-                    if (p1.getX() == x && p1.getY() == y) {
+                    if (p1.getX() == x && p1.getY() == y && player1Turn) {
                         currentSelected = p1;
                     }
                 }
                 //Checks if player clicked a friendly unit
                 for (Entity p2 : player2Units) {
-                    if (p2.getX() == x && p2.getY() == y) {
+                    if (p2.getX() == x && p2.getY() == y && player1Turn == false) {
                         currentSelected = p2;
                     } else {
                         currentSelected = null;
@@ -136,12 +146,12 @@ public class WorldRenderer {
         } else if (currentState == ATTACKING) {
             if (currentSelected == null) {
                 for (Entity p1 : player1Units) {
-                    if (p1.getX() == 2 && p1.getY() == y) {
+                    if (p1.getX() == 2 && p1.getY() == y && player1Turn) {
                         currentSelected = p1;
                     }
                 }
                 for (Entity p2 : player2Units) {
-                    if (p2.getX() == x && p2.getY() == y) {
+                    if (p2.getX() == x && p2.getY() == y && player1Turn == false) {
                         currentSelected = p2;
                     } else {
                         currentSelected = null;
@@ -149,12 +159,12 @@ public class WorldRenderer {
                 }
             } else {
                 for (Entity p1 : player1Units) {
-                    if (p1.getX() == x && p1.getY() == y) {
+                    if (p1.getX() == x && p1.getY() == y && !currentSelected.getPlayer().equals(p1.getPlayer())) {
                         battle(currentSelected, p1);
                     }
                 }
                 for (Entity p2 : player2Units) {
-                    if (p2.getX() == x && p2.getY() == y) {
+                    if (p2.getX() == x && p2.getY() == y && !currentSelected.getPlayer().equals(p2.getPlayer())) {
                         battle(currentSelected, p2);
                     } else {
                         currentSelected = null;

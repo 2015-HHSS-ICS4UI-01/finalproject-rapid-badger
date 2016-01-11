@@ -14,7 +14,8 @@ public class Entity {
 
     private Rectangle place;
     private int units;
-
+    private String player;
+    
     public Entity(float x, float y, float width, float height) {
         place = new Rectangle(x, y, width, height);
     }
@@ -46,5 +47,13 @@ public class Entity {
     public void Move(int newX, int newY) {
         place.x = newX;
         place.y = newY;
+    }
+    
+    public void setPlayer(String player) {
+        this.player = player;
+    }
+    
+    public String getPlayer() {
+        return player;
     }
 }
