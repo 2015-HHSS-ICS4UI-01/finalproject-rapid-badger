@@ -23,8 +23,8 @@ public class MainGame implements Screen {
     private final int V_WIDTH = 800;
     private final int V_HEIGHT = 600;
     private WorldRenderer renderer;
-    private float clickX;
-    private float clickY;
+    private int clickX;
+    private int clickY;
     private boolean buttonDown;
 
     public MainGame() {

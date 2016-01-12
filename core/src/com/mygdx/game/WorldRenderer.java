@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import static com.mygdx.game.WorldRenderer.State.ATTACKING;
 import static com.mygdx.game.WorldRenderer.State.MOVING;
 import static com.mygdx.game.WorldRenderer.State.NOTHING;
+import static com.mygdx.game.WorldRenderer.State.PLACEMENT;
 import com.mygdx.models.Entity;
 import java.util.Random;
 
@@ -36,25 +37,22 @@ public class WorldRenderer {
     private int turn;
     private boolean player1Turn;
     private boolean moved;
-    
+    private int count;
+
     public enum State {
 
-        MOVING, ATTACKING, NOTHING
+        MOVING, ATTACKING, PLACEMENT, NOTHING,
     }
 
     public WorldRenderer() {
-        currentState = NOTHING;
+        currentState = PLACEMENT;
         moved = false;
         player1Units = new Array<Entity>();
         player2Units = new Array<Entity>();
-        player1Units.add(new Entity(1, 1, 1, 1));
-        player1Units.add(new Entity (2, 2, 1, 1));
-        player2Units.add(new Entity (5, 5, 1, 1));
-        player2Units.add(new Entity (6, 6, 1, 1));
-        for(Entity e: player1Units) {
+        for (Entity e : player1Units) {
             e.setPlayer("player1");
         }
-        for(Entity e: player2Units) {
+        for (Entity e : player2Units) {
             e.setPlayer("player2");
         }
         System.out.println("It is player 1's turn");
@@ -117,7 +115,7 @@ public class WorldRenderer {
      * @param x the X coordinate of the click
      * @param y the Y coordinate of the click
      */
-    public void click(float x, float y) { 
+    public void click(int x, int y) {
         if (currentState == MOVING) {
             if (currentSelected == null) {
                 //Checks if player clicked enemy unit
@@ -136,14 +134,14 @@ public class WorldRenderer {
                 }
             } else {
                 //Checking which way to move
-                if((int) x < currentSelected.getX() && (int) y < currentSelected.getY() && !moved) {
-                    currentSelected.Move((int) x + 1, (int) y + 1);
-                } else if((int) x > currentSelected.getX() && (int) y > currentSelected.getY() && !moved) {
-                    currentSelected.Move((int) x - 1, (int) y - 1);
-                } else if((int) x < currentSelected.getX() && (int) y > currentSelected.getY() && !moved) {
-                    currentSelected.Move((int) x + 1, (int) y - 1);
-                } else if (!moved){
-                    currentSelected.Move((int) x - 1, (int) y + 1);
+                if (x < currentSelected.getX() && y < currentSelected.getY() && !moved) {
+                    currentSelected.Move(x + 1, y + 1);
+                } else if ((int) x > currentSelected.getX() && y > currentSelected.getY() && !moved) {
+                    currentSelected.Move(x - 1, y - 1);
+                } else if ((int) x < currentSelected.getX() && (int) y > currentSelected.getY() && !moved) {
+                    currentSelected.Move(x + 1, y - 1);
+                } else if (!moved) {
+                    currentSelected.Move(x - 1, y + 1);
                 }
                 moved = true;
             }
@@ -163,14 +161,14 @@ public class WorldRenderer {
                 }
             } else {
                 for (Entity p1 : player1Units) {
-                    if (p1.getX() == x && p1.getY() == y && !currentSelected.getPlayer().equals(p1.getPlayer()) &&
-                            !moved) {
+                    if (p1.getX() == x && p1.getY() == y && !currentSelected.getPlayer().equals(p1.getPlayer())
+                            && !moved) {
                         battle(currentSelected, p1);
                     }
                 }
                 for (Entity p2 : player2Units) {
-                    if (p2.getX() == x && p2.getY() == y && !currentSelected.getPlayer().equals(p2.getPlayer()) &&
-                            !moved) {
+                    if (p2.getX() == x && p2.getY() == y && !currentSelected.getPlayer().equals(p2.getPlayer())
+                            && !moved) {
                         battle(currentSelected, p2);
                     } else {
                         currentSelected = null;
@@ -178,18 +176,41 @@ public class WorldRenderer {
                 }
                 moved = true;
             }
+        } else if (currentState == PLACEMENT) {
+            if (count != 10) {
+                if (player1Turn) {
+                    player1Units.add(new Entity(x, y, 1, 1));
+                    System.out.println("Player 1 placed an entity at " + x + " " + y);
+                } else {
+                    player2Units.add(new Entity(x, y, 1, 1));
+                    System.out.println("Player 2 placed an entity at " + x + " " + y);
+                }
+                for (Entity e : player1Units) {
+                    e.setPlayer("player1");
+                }
+                for (Entity e : player2Units) {
+                    e.setPlayer("player2");
+                }
+                count++;
+            } else if (count == 10) {
+                System.out.println("All units have been placed");
+                currentState = NOTHING;
+            }
+            endTurn();
         }
-        
-        if(player1Turn) {
-            System.out.println("player 1 clicked " + x + " " + y);
-        } else {
-            System.out.println("player 2 clicked " + x + " " + y);
+
+        if (currentState != PLACEMENT) {
+            if (player1Turn) {
+                System.out.println("player 1 clicked " + x + " " + y);
+            } else {
+                System.out.println("player 2 clicked " + x + " " + y);
+            }
         }
-        
+
     }
-    
+
     public void endTurn() {
-        if(player1Turn) {
+        if (player1Turn) {
             System.out.println("Player 1's turn has ended");
             System.out.println();
         } else {
@@ -197,7 +218,7 @@ public class WorldRenderer {
             System.out.println();
         }
         turn++;
-        if(turn % 2 != 0) {
+        if (turn % 2 != 0) {
             player1Turn = true;
             System.out.println("It is player 1's turn.");
         } else {
