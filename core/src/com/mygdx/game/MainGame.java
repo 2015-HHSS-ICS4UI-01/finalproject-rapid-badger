@@ -25,6 +25,7 @@ public class MainGame implements Screen {
     private WorldRenderer renderer;
     private float clickX;
     private float clickY;
+    private boolean buttonDown;
 
     public MainGame() {
         renderer = new WorldRenderer();
@@ -39,7 +40,10 @@ public class MainGame implements Screen {
     @Override
     public void render(float deltaTime) {
         
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            buttonDown = true;
+        } else if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT) && buttonDown) {
+            buttonDown = false;
             clickX = Gdx.input.getX();
             clickY = Gdx.input.getY();
             System.out.println(clickX + " " + clickY);
