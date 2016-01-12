@@ -38,7 +38,9 @@ public class WorldRenderer {
     private boolean player1Turn;
     private boolean moved;
     private int count;
-
+    private int count2;
+    
+    
     public enum State {
 
         MOVING, ATTACKING, PLACEMENT, NOTHING,
@@ -93,7 +95,7 @@ public class WorldRenderer {
             a.setUnits(a.unitCount() - b.unitCount());
             b.setUnits(0);
         } else {
-            int rand = randNum();
+            int rand = randNum(1, 3);
             if (rand == 3) {
                 a.setUnits(a.unitCount() / 2);
                 b.setUnits(b.unitCount() / 2);
@@ -177,13 +179,17 @@ public class WorldRenderer {
                 moved = true;
             }
         } else if (currentState == PLACEMENT) {
-            if (count != 10) {
+            if (count + count2 != 10) {
                 if (player1Turn) {
                     player1Units.add(new Entity(x, y, 1, 1));
+                    player1Units.get(count).setUnits(randNum(1, 5));
                     System.out.println("Player 1 placed an entity at " + x + " " + y);
+                    count++;
                 } else {
                     player2Units.add(new Entity(x, y, 1, 1));
+                    player2Units.get(count2).setUnits(randNum(1, 5));
                     System.out.println("Player 2 placed an entity at " + x + " " + y);
+                    count2++;
                 }
                 for (Entity e : player1Units) {
                     e.setPlayer("player1");
@@ -191,8 +197,7 @@ public class WorldRenderer {
                 for (Entity e : player2Units) {
                     e.setPlayer("player2");
                 }
-                count++;
-            } else if (count == 10) {
+            } else if (count + count2 == 10) {
                 System.out.println("All units have been placed");
                 currentState = NOTHING;
             }
@@ -248,9 +253,9 @@ public class WorldRenderer {
         System.out.println(currentState);
     }
 
-    private int randNum() {
+    private int randNum(int min, int max) {
         Random rand = new Random();
-        int n = rand.nextInt(3) + 1;
+        int n = rand.nextInt(max) + min;
         return n;
     }
 }
