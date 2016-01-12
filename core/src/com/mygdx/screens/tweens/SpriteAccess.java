@@ -4,10 +4,12 @@
  */
 package com.mygdx.screens.tweens;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
 /**
  *
  * @author thomt9963
  */
-public class SpriteAccess implements TweenAccessor{
+public class SpriteAccess implements TweenAccessor<Sprite>{
     
 }
