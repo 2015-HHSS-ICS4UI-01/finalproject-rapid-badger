@@ -29,7 +29,6 @@ public class MainGame implements Screen {
 
     public MainGame() {
         renderer = new WorldRenderer();
-        System.out.println(renderer.getTurn());
     }
 
     @Override
@@ -46,13 +45,13 @@ public class MainGame implements Screen {
             buttonDown = false;
             clickX = Gdx.input.getX();
             clickY = Gdx.input.getY();
-            System.out.println(clickX + " " + clickY);
             renderer.click(clickX, clickY);
-            System.out.println(renderer.getTurn());
         } else if (Gdx.input.isKeyJustPressed(Keys.M)) {
             renderer.setState(WorldRenderer.State.MOVING);
         } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
             renderer.setState(WorldRenderer.State.ATTACKING);
+        } else if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+            renderer.endTurn();
         }
 
         renderer.render(deltaTime);
