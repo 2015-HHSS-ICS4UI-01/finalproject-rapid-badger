@@ -73,7 +73,7 @@ public class WorldRenderer {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        //put stuff here once the one guy who has the maps gets back from Cuba
+        //someone for the love of god put something in here so we know that the entire game can actually work
         batch.end();
 
     }
