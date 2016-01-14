@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import java.awt.Rectangle;
 
 /**
  *
@@ -19,10 +20,12 @@ public class SplashArt1 implements Screen{
 
     private Sprite splash;
     private SpriteBatch batch;
+    private Rectangle button;
             
     @Override
     public void show() {
         batch = new SpriteBatch();
+        button = new Rectangle();
         
         Texture splashTexture = new Texture("Splash.png");
         splash = new Sprite(splashTexture);
