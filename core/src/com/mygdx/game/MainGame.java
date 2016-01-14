@@ -23,12 +23,12 @@ public class MainGame implements Screen {
     private final int V_WIDTH = 800;
     private final int V_HEIGHT = 600;
     private WorldRenderer renderer;
-    private float clickX;
-    private float clickY;
+    private int clickX;
+    private int clickY;
+    private boolean buttonDown;
 
     public MainGame() {
         renderer = new WorldRenderer();
-        System.out.println(renderer.getTurn());
     }
 
     @Override
@@ -39,16 +39,19 @@ public class MainGame implements Screen {
     @Override
     public void render(float deltaTime) {
         
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            buttonDown = true;
+        } else if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT) && buttonDown) {
+            buttonDown = false;
             clickX = Gdx.input.getX();
             clickY = Gdx.input.getY();
-            System.out.println(clickX + " " + clickY);
             renderer.click(clickX, clickY);
-            System.out.println(renderer.getTurn());
         } else if (Gdx.input.isKeyJustPressed(Keys.M)) {
             renderer.setState(WorldRenderer.State.MOVING);
         } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
             renderer.setState(WorldRenderer.State.ATTACKING);
+        } else if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+            renderer.endTurn();
         }
 
         renderer.render(deltaTime);
