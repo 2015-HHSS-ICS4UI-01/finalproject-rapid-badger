@@ -138,9 +138,9 @@ public class WorldRenderer {
                 //Checking which way to move
                 if (x < currentSelected.getX() && y < currentSelected.getY() && !moved) {
                     currentSelected.Move(x + 1, y + 1);
-                } else if ((int) x > currentSelected.getX() && y > currentSelected.getY() && !moved) {
+                } else if (x > currentSelected.getX() && y > currentSelected.getY() && !moved) {
                     currentSelected.Move(x - 1, y - 1);
-                } else if ((int) x < currentSelected.getX() && (int) y > currentSelected.getY() && !moved) {
+                } else if ( x < currentSelected.getX() && y > currentSelected.getY() && !moved) {
                     currentSelected.Move(x + 1, y - 1);
                 } else if (!moved) {
                     currentSelected.Move(x - 1, y + 1);
