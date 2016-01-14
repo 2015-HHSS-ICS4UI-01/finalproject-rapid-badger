@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="hexagonal" renderorder="right-up" width="30" height="25" tilewidth="55" tileheight="93" hexsidelength="0" staggeraxis="y" staggerindex="odd" nextobjectid="1">
+ <tileset firstgid="1" name="tile4map" tilewidth="60" tileheight="60" tilecount="1">
+  <image source="sicK ASS tilething_edited-1.png" width="60" height="61"/>
+ </tileset>
+ <tileset firstgid="2" name="tile_map" tilewidth="60" tileheight="61" tilecount="1">
+  <image source="tile_map.png" width="60" height="61"/>
+ </tileset>
+ <tileset firstgid="3" name="tile_green" tilewidth="60" tileheight="61" tilecount="1">
+  <image source="tile_green.png" width="60" height="61"/>
+ </tileset>
+ <tileset firstgid="4" name="tile_yellow_edited-1" tilewidth="60" tileheight="61" tilecount="1">
+  <image source="tile_yellow_edited-1.png" width="60" height="61"/>
+ </tileset>
+ <tileset firstgid="5" name="tile_purple_edited-1" tilewidth="60" tileheight="61" tilecount="1">
+  <image source="tile_purple_edited-1.png" width="60" height="61"/>
+ </tileset>
+ <tileset firstgid="6" name="tile_orange_edited-1" tilewidth="60" tileheight="61" tilecount="1">
+  <image source="tile_orange_edited-1.png" width="60" height="61"/>
+ </tileset>
+ <tileset firstgid="7" name="tile_ice_edited-1" tilewidth="60" tileheight="61" tilecount="1">
+  <image source="tile_ice_edited-1.png" width="60" height="61"/>
+ </tileset>
+ <tileset firstgid="8" name="tile_brown_edited-1" tilewidth="60" tileheight="61" tilecount="1">
+  <image source="tile_brown_edited-1.png" width="60" height="61"/>
+ </tileset>
+ <tileset firstgid="9" name="tile_blueGrey_edited-1" tilewidth="60" tileheight="61" tilecount="1">
+  <image source="tile_blueGrey_edited-1.png" width="60" height="61"/>
+ </tileset>
+ <tileset firstgid="10" name="tile_grey_edited-1" tilewidth="60" tileheight="61" tilecount="1">
+  <image source="../../My Pictures/tile_grey_edited-1.png" width="60" height="61"/>
+ </tileset>
+ <tileset firstgid="11" name="tile_red_edited-1" tilewidth="60" tileheight="61" tilecount="1">
+  <image source="../../My Pictures/tile_red_edited-1.png" width="60" height="61"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="30" height="25">
+  <data encoding="base64" compression="zlib">
+   eJylltsOgzAMQzMNGND//98JCUuWcXojUh42Up8CiUtExNckYje53LlK/iQPo4dwTK477mTmZ4I7yj4oy524381o6RpmF6op8dRbjIbWZcwrzvs6J9ZyzLChl3ERygW7xYTOlfwOLq21k5vpOm6LDa5jn/K7xuU+UD3o8P2uSZ0yT0kN7UFounpweabdfSp3N9cdM3t/EU8vcUxX18utsaFb4tmvIRoZl/fEnlObU4TOhO675lnMVm4Pm3v2EI0a9w2zxcWzGOX2snUmWj4Z8TwTRpktjV4ur5vlqv8pV3uu5pe1YI9w3wY6R+pNvG6ErZ6o88Rc/h/1vwku9yM8seVVjsvfKnr2uthkXWvPzmcxQ46JOdRzibm9z8g9C/SyY2fnIc9NL1eDmTPcN5GxMy7YPfEHgQAL9g==
+  </data>
+ </layer>
+</map>
