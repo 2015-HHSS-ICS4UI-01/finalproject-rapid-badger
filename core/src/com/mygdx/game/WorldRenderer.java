@@ -95,16 +95,15 @@ public class WorldRenderer {
             a.setUnits(a.unitCount() - b.unitCount());
             b.setUnits(0);
         } else {
-            int rand = randNum(1, 3);
-            if (rand == 3) {
-                a.setUnits(a.unitCount() / 2);
-                b.setUnits(b.unitCount() / 2);
-            } else if (rand == 2) {
-                a.setUnits(a.unitCount() / 2 - 2);
-                b.setUnits(b.unitCount() / 2);
+            int rand = randNum(1, 2);
+            //if a wins random battle
+            if(rand == 1) {
+                
+                b.setUnits(0);
+            //if b wins random battle
             } else {
-                a.setUnits(a.unitCount() / 2);
-                b.setUnits(b.unitCount() / 2 - 2);
+                
+                a.setUnits(0);
             }
 
         }
@@ -138,9 +137,9 @@ public class WorldRenderer {
                 //Checking which way to move
                 if (x < currentSelected.getX() && y < currentSelected.getY() && !moved) {
                     currentSelected.Move(x + 1, y + 1);
-                } else if ((int) x > currentSelected.getX() && y > currentSelected.getY() && !moved) {
+                } else if (x > currentSelected.getX() && y > currentSelected.getY() && !moved) {
                     currentSelected.Move(x - 1, y - 1);
-                } else if ((int) x < currentSelected.getX() && (int) y > currentSelected.getY() && !moved) {
+                } else if ( x < currentSelected.getX() && y > currentSelected.getY() && !moved) {
                     currentSelected.Move(x + 1, y - 1);
                 } else if (!moved) {
                     currentSelected.Move(x - 1, y + 1);
