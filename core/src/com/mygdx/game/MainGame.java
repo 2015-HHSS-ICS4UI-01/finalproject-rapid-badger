@@ -28,6 +28,8 @@ public class MainGame implements Screen {
     private WorldRenderer renderer;
     
     
+    
+    
     private float clickX;
     private float clickY;
     
