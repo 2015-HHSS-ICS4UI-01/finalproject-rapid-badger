@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import static com.mygdx.game.WorldRenderer.State.PLACEMENT;
 import com.mygdx.models.Entity;
 
 /**
@@ -44,13 +45,13 @@ public class MainGame implements Screen {
         } else if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT) && buttonDown) {
             buttonDown = false;
             clickX = Gdx.input.getX();
-            clickY = Gdx.input.getY();
+            clickY = (Gdx.graphics.getHeight()-Gdx.input.getY());
             renderer.click(clickX, clickY);
         } else if (Gdx.input.isKeyJustPressed(Keys.M)) {
             renderer.setState(WorldRenderer.State.MOVING);
         } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
             renderer.setState(WorldRenderer.State.ATTACKING);
-        } else if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+        } else if (Gdx.input.isKeyJustPressed(Keys.SPACE) && renderer.getState() != PLACEMENT) {
             renderer.endTurn();
         }
 
