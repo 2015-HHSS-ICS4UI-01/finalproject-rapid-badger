@@ -35,7 +35,8 @@ public class WorldRenderer {
     private boolean player1Turn, moved, alreadyPlaced;
     private int count;
     private int count2;
-    private Sprite splash;
+    private Sprite figure;
+    private Sprite figure2;
 
     public enum State {
 
@@ -50,8 +51,10 @@ public class WorldRenderer {
        
         System.out.println("It is player 1's turn");
         batch = new SpriteBatch();
-        Texture splashTexture = new Texture("TestImage.jpg");
-        splash = new Sprite(splashTexture);
+        Texture figureTexture = new Texture("stick.png");
+        Texture figureTexture2 = new Texture("stick2.png");
+        figure = new Sprite(figureTexture);
+        figure2 = new Sprite(figureTexture2);
         turn = 1;
         player1Turn = true;
         alreadyPlaced = false;
@@ -63,10 +66,10 @@ public class WorldRenderer {
         
         batch.begin();
         for (Entity e : player1Units) {
-            batch.draw(splash, e.getX(), e.getY(), 50, 50);
+            batch.draw(figure, e.getX(), e.getY(), 50, 50);
         }
         for(Entity e: player2Units) {
-            batch.draw(splash, e.getX(), e.getY(), 50, 50);
+            batch.draw(figure2, e.getX(), e.getY(), 50, 50);
         }
         //someone for the love of god put something in here so we know that the entire game can actually work
         batch.end();
@@ -84,7 +87,20 @@ public class WorldRenderer {
         if (a.unitCount() < b.unitCount()) {
             //if a has more troops then it has as many troops as the difference between a's and b's troops
             b.setUnits(b.unitCount() - a.unitCount());
-            a.setUnits(0);
+            for(Entity e: player1Units) {
+                int loop = 0;
+                if(e == a) {
+                    player1Units.removeIndex(loop);
+                }
+                loop++;
+            }
+            for(Entity e: player2Units) {
+                int loop = 0;
+                if(e == a) {
+                    player1Units.removeIndex(loop);
+                }
+                loop++;
+            }
             //if a has more troops
         } else if (b.unitCount() < a.unitCount()) {
             a.setUnits(a.unitCount() - b.unitCount());
@@ -116,19 +132,21 @@ public class WorldRenderer {
             if (currentSelected == null) {
                 //Checks if player clicked enemy unit
                 for (Entity p1 : player1Units) {
-                    if (p1.getX() == x && p1.getY() == y && player1Turn) {
+                    if (p1.getX() <= x && p1.getWidth() >= x && p1.getY() <= y && y <= p1.getHeight()) {
                         currentSelected = p1;
+                        System.out.println(currentSelected.getX() + " " + currentSelected.getY());
                     }
                 }
                 //Checks if player clicked a friendly unit
                 for (Entity p2 : player2Units) {
-                    if (p2.getX() == x && p2.getY() == y && player1Turn == false) {
+                    if (p2.getX() == x && p2.getY() == y ) {
                         currentSelected = p2;
+                        System.out.println(currentSelected.getX() + " " + currentSelected.getY());
                     } else {
                         currentSelected = null;
                     }
                 }
-            } else {
+            } else if (currentSelected != null){
                 //Checking which way to move
                 if (x < currentSelected.getX() && y < currentSelected.getY() && !moved) {
                     currentSelected.Move(x + 1, y + 1);
@@ -187,12 +205,12 @@ public class WorldRenderer {
             }
             if (count + count2 != 10 && !alreadyPlaced) {
                 if (player1Turn) {
-                    player1Units.add(new Entity(x, y, 1, 1));
+                    player1Units.add(new Entity(x, y, 50, 50));
                     player1Units.get(count).setUnits(randNum(1, 5));
                     System.out.println("Player 1 placed an entity at " + x + " " + y);
                     count++;
                 } else {
-                    player2Units.add(new Entity(x, y, 1, 1));
+                    player2Units.add(new Entity(x, y, 50, 50));
                     player2Units.get(count2).setUnits(randNum(1, 5));
                     System.out.println("Player 2 placed an entity at " + x + " " + y);
                     count2++;
