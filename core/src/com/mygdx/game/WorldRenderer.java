@@ -8,6 +8,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.Map;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.screens.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -30,6 +36,13 @@ public class WorldRenderer {
     private OrthographicCamera camera;
     private final int V_WIDTH = 800;
     private final int V_HEIGHT = 600;
+    
+    private TmxMapLoader loader;
+    private TiledMap map;
+    private HexagonalTiledMapRenderer ronderer;
+    float unitScale = 1/16f;
+    
+    
 
     private SpriteBatch batch;
 
@@ -40,11 +53,15 @@ public class WorldRenderer {
     private Array<Entity> player2Units;
 
     private State currentState;
+    
+    
 
     public enum State {
 
         MOVING, ATTACKING, NOTHING
     }
+    
+        
 
     public WorldRenderer(World w) {
         currentState = NOTHING;
@@ -54,7 +71,11 @@ public class WorldRenderer {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         viewport = new FitViewport(V_WIDTH, V_HEIGHT, camera);
+        
     }
+    
+  
+    
 
     public void render(float deltaTime) {
         Gdx.gl20.glClearColor(0, 0, 0, 1);
@@ -65,6 +86,7 @@ public class WorldRenderer {
 
         batch.begin();
         //put stuff here once the one guy who has the maps gets back from Cuba
+        
         batch.end();
 
     }
@@ -100,6 +122,7 @@ public class WorldRenderer {
 
         }
     }
+    
 
     /**
      * Finds which unit the player clicked.
