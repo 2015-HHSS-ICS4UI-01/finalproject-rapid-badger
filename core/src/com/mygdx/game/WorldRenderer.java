@@ -48,7 +48,7 @@ public class WorldRenderer {
         moved = false;
         player1Units = new Array<Entity>();
         player2Units = new Array<Entity>();
-       
+
         System.out.println("It is player 1's turn");
         batch = new SpriteBatch();
         Texture figureTexture = new Texture("stick.png");
@@ -63,13 +63,13 @@ public class WorldRenderer {
     public void render(float deltaTime) {
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         batch.begin();
         for (Entity e : player1Units) {
-            batch.draw(figure, e.getX(), e.getY(), 50, 50);
+            batch.draw(figure, e.getX(), e.getY(), e.getWidth(), e.getHeight());
         }
-        for(Entity e: player2Units) {
-            batch.draw(figure2, e.getX(), e.getY(), 50, 50);
+        for (Entity e : player2Units) {
+            batch.draw(figure2, e.getX(), e.getY(), e.getWidth(), e.getHeight());
         }
         //someone for the love of god put something in here so we know that the entire game can actually work
         batch.end();
@@ -87,16 +87,16 @@ public class WorldRenderer {
         if (a.unitCount() < b.unitCount()) {
             //if a has more troops then it has as many troops as the difference between a's and b's troops
             b.setUnits(b.unitCount() - a.unitCount());
-            for(Entity e: player1Units) {
+            for (Entity e : player1Units) {
                 int loop = 0;
-                if(e == a) {
+                if (e == a) {
                     player1Units.removeIndex(loop);
                 }
                 loop++;
             }
-            for(Entity e: player2Units) {
+            for (Entity e : player2Units) {
                 int loop = 0;
-                if(e == a) {
+                if (e == a) {
                     player1Units.removeIndex(loop);
                 }
                 loop++;
@@ -139,14 +139,14 @@ public class WorldRenderer {
                 }
                 //Checks if player clicked a friendly unit
                 for (Entity p2 : player2Units) {
-                    if (p2.getX() == x && p2.getY() == y ) {
+                    if (p2.getX() <= x && p2.getWidth() >= x && p2.getY() <= y && y <= p2.getHeight()) {
                         currentSelected = p2;
                         System.out.println(currentSelected.getX() + " " + currentSelected.getY());
                     } else {
                         currentSelected = null;
                     }
                 }
-            } else if (currentSelected != null){
+            } else if (currentSelected != null) {
                 //Checking which way to move
                 if (x < currentSelected.getX() && y < currentSelected.getY() && !moved) {
                     currentSelected.Move(x + 1, y + 1);
@@ -158,6 +158,23 @@ public class WorldRenderer {
                     currentSelected.Move(x - 1, y + 1);
                 }
                 moved = true;
+            }
+        } else if (currentState == NOTHING) {
+            //checks if player clicked on a unit
+            for (Entity p1 : player1Units) {
+                if (p1.getX() <= x && p1.getWidth() >= x && p1.getY() <= y && y <= p1.getHeight()) {
+                    currentSelected = p1;
+                    System.out.println(currentSelected.getX() + " " + currentSelected.getY());
+                }
+            }
+            //Checks if player clicked on a unit
+            for (Entity p2 : player2Units) {
+                if (p2.getX() <= x && p2.getWidth() >= x && p2.getY() <= y && y <= p2.getHeight()) {
+                    currentSelected = p2;
+                    System.out.println(currentSelected.getX() + " " + currentSelected.getY());
+                } else {
+                    currentSelected = null;
+                }
             }
         } else if (currentState == ATTACKING) {
             if (currentSelected == null) {
