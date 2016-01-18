@@ -38,6 +38,7 @@ public class WorldRenderer {
     private int count2;
     private Sprite figure;
     private Sprite figure2;
+    private boolean plusX, plusY;
 
     public enum State {
 
@@ -129,7 +130,7 @@ public class WorldRenderer {
      * @param y the Y coordinate of the click
      */
     public void click(int x, int y) {
-        Rectangle rect = new Rectangle(x, y, 5, 5);
+        Rectangle rect = new Rectangle(x, y, 10, 10);
         if (currentState == MOVING) {
             if (currentSelected == null) {
                 //Checks if player clicked enemy unit
@@ -160,16 +161,13 @@ public class WorldRenderer {
                 }
             } else if (currentSelected != null) {
                 //Checking which way to move
-//                if (x < currentSelected.getX() && y < currentSelected.getY() && !moved) {
-//                    currentSelected.Move(x + 1, y + 1);
-//                } else if (x > currentSelected.getX() && y > currentSelected.getY() && !moved) {
-//                    currentSelected.Move(x - 1, y - 1);
-//                } else if (x < currentSelected.getX() && y > currentSelected.getY() && !moved) {
-//                    currentSelected.Move(x + 1, y - 1);
-//                } else if (!moved) {
-//                    currentSelected.Move(x - 1, y + 1);
-//                }
+                if(rect.x < currentSelected.getX()) {
+                    
+                } else {
+                    
+                }
                 currentSelected.Move(x, y);
+                currentSelected = null;
 //                moved = true;
             }
         } else if (currentState == NOTHING) {
