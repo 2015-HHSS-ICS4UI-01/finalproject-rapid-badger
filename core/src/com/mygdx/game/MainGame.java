@@ -11,8 +11,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.screens.World;
+import static com.mygdx.game.WorldRenderer.State.PLACEMENT;
 import com.mygdx.models.Entity;
 
 /**
@@ -20,22 +21,16 @@ import com.mygdx.models.Entity;
  * @author thomt9963
  */
 public class MainGame implements Screen {
-    
+
     private final int V_WIDTH = 800;
     private final int V_HEIGHT = 600;
-    
-    private World theWorld;
     private WorldRenderer renderer;
-    
-    
-    
-    
-    private float clickX;
-    private float clickY;
-    
+    private int clickX;
+    private int clickY;
+    private boolean buttonDown;
+
     public MainGame() {
-        theWorld = new World();
-        renderer = new WorldRenderer(theWorld);
+        renderer = new WorldRenderer();
     }
 
     @Override
@@ -45,23 +40,25 @@ public class MainGame implements Screen {
 
     @Override
     public void render(float deltaTime) {
+        
         if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            buttonDown = true;
+        } else if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT) && buttonDown) {
+            buttonDown = false;
             clickX = Gdx.input.getX();
-            clickY = Gdx.input.getY();
-            System.out.println(clickX + " " + clickY);
+            clickY = (Gdx.graphics.getHeight()-Gdx.input.getY());
             renderer.click(clickX, clickY);
         } else if (Gdx.input.isKeyJustPressed(Keys.M)) {
             renderer.setState(WorldRenderer.State.MOVING);
         } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
             renderer.setState(WorldRenderer.State.ATTACKING);
+        } else if (Gdx.input.isKeyJustPressed(Keys.SPACE) && renderer.getState() != PLACEMENT) {
+            renderer.endTurn();
         }
-        
+
         renderer.render(deltaTime);
     }
 
-
-    
-    
     @Override
     public void resize(int width, int height) {
         
@@ -86,5 +83,4 @@ public class MainGame implements Screen {
     public void dispose() {
         
     }
-    
 }
