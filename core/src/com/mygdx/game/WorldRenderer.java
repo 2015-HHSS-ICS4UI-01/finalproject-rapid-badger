@@ -5,17 +5,21 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.Map;
+
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import static com.mygdx.game.WorldRenderer.State.ATTACKING;
 import static com.mygdx.game.WorldRenderer.State.MOVING;
 import static com.mygdx.game.WorldRenderer.State.NOTHING;
@@ -42,6 +46,16 @@ public class WorldRenderer {
     private int count;
     private int count2;
     private Sprite splash;
+    
+    private Camera cam; 
+    private Viewport port;
+    
+    private TmxMapLoader loader;
+    private TiledMap map;
+    private HexagonalTiledMapRenderer ronderer;
+    float unitScale = 1/16f;
+    
+ 
 
     public enum State {
 
@@ -63,14 +77,35 @@ public class WorldRenderer {
         turn = 1;
         player1Turn = true;
         alreadyPlaced = false;
+       
+    
+    
+       
+        
+        cam = new OrthographicCamera();
+        port = new FitViewport(V_WIDTH,V_HEIGHT,cam); 
+        loader = new TmxMapLoader();
+        map = loader.load("map.tmx");
+        ronderer = new HexagonalTiledMapRenderer(map);
+        
+        
+        
+        cam.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
+        
+        
+        
+       
+        
+        
     }
     
-  
     
 
     public void render(float deltaTime) {
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        ronderer.render();
+        
         
         batch.begin();
         for (Entity e : player1Units) {
@@ -252,6 +287,7 @@ public class WorldRenderer {
     }
 
     public void resize(int width, int height) {
+        port.update(width, height);
     }
 
     public Array<Entity> getPlayer1units() {
