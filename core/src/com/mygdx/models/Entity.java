@@ -39,6 +39,14 @@ public class Entity {
     public int unitCount() {
         return units;
     }
+    
+    public boolean setCollision(Rectangle rect) {
+        if(rect.overlaps(place)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public void setUnits(int newunits) {
         units = newunits;

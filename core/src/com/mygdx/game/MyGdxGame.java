@@ -22,20 +22,16 @@ public class MyGdxGame extends Game {
         Timer.schedule(new Task() {
             @Override
             public void run() {
-                // Do your work
                 setScreen(screen2);
-                Timer.schedule(new Task() {
-                            @Override
-                            public void run() {
-                                // Do your work
-                                setScreen(new MainMenu());;
-                            }
-                        }, delayAgain);
+//                Timer.schedule(new Task() {
+//                            @Override
+//                            public void run() {
+//                                setScreen(new MainMenu());
+//                            }
+//                        }, delayAgain);
                 Timer.schedule(new Task() {
                     @Override
                     public void run() {
-                        
-                        // Do your work
                         setScreen(new MainGame());
                         
                     }
