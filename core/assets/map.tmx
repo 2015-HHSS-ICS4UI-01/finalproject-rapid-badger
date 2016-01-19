@@ -28,10 +28,10 @@
   <image source="tile_blueGrey_edited-1.png" width="60" height="61"/>
  </tileset>
  <tileset firstgid="10" name="tile_grey_edited-1" tilewidth="60" tileheight="61" tilecount="1">
-  <image source="../../My Pictures/tile_grey_edited-1.png" width="60" height="61"/>
+  <image source="tile_grey_edited-1.png" width="60" height="61"/>
  </tileset>
  <tileset firstgid="11" name="tile_red_edited-1" tilewidth="60" tileheight="61" tilecount="1">
-  <image source="../../My Pictures/tile_red_edited-1.png" width="60" height="61"/>
+  <image source="tile_red_edited-1.png" width="60" height="61"/>
  </tileset>
  <layer name="Tile Layer 1" width="30" height="25">
   <data encoding="base64" compression="zlib">

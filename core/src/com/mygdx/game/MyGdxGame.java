@@ -10,6 +10,7 @@ public class MyGdxGame extends Game {
 
     private SplashArt1 screen1 = new SplashArt1();
     private SplashArt screen2 = new SplashArt();
+    
     private float delay = 2;
     private float delay1 = 4;
 
