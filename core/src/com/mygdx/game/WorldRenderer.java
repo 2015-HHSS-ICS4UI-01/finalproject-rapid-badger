@@ -258,6 +258,7 @@ public class WorldRenderer {
                         battle(currentSelected, p1);
                     }
                 }
+                
                 it = player2Units.iterator();
                 while (it.hasNext()) {
                     Entity p2 = it.next();
