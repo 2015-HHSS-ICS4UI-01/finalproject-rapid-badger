@@ -256,6 +256,7 @@ public class WorldRenderer {
                     Entity p1 = it.next();
                     if (p1.clicked(rect) && !moved) {
                         battle(currentSelected, p1);
+                        break;
                     }
                 }
                 
@@ -264,6 +265,7 @@ public class WorldRenderer {
                     Entity p2 = it.next();
                     if (p2.clicked(rect) && !moved) {
                         battle(currentSelected, p2);
+                        break;
                     }
                 }
                 moved = true;
