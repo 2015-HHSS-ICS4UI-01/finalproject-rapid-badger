@@ -46,30 +46,24 @@ public class WorldRenderer {
     private int count;
     private int count2;
     private Sprite splash;
-    
-    private Camera cam; 
+    private OrthographicCamera cam;
     private Viewport port;
-    
     private TmxMapLoader loader;
     private TiledMap map;
     private HexagonalTiledMapRenderer ronderer;
-    float unitScale = 1/16f;
-    
- 
+   
 
     public enum State {
 
         MOVING, ATTACKING, PLACEMENT, NOTHING,
     }
-    
-        
 
     public WorldRenderer() {
         currentState = PLACEMENT;
         moved = false;
         player1Units = new Array<Entity>();
         player2Units = new Array<Entity>();
-       
+
         System.out.println("It is player 1's turn");
         batch = new SpriteBatch();
         Texture splashTexture = new Texture("TestImage.jpg");
@@ -77,41 +71,41 @@ public class WorldRenderer {
         turn = 1;
         player1Turn = true;
         alreadyPlaced = false;
-       
-    
-    
-       
-        
+
+
+
+
+
         cam = new OrthographicCamera();
-        port = new FitViewport(V_WIDTH,V_HEIGHT,cam); 
+        port = new FitViewport(V_WIDTH, V_HEIGHT, cam);
         loader = new TmxMapLoader();
         map = loader.load("map.tmx");
-        ronderer = new HexagonalTiledMapRenderer(map);
-        
-        
-        
-        cam.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
-        
-        
-        
-       
-        
-        
+        ronderer = new HexagonalTiledMapRenderer(map, batch);
+        ronderer.setView(cam);
+
+
+        cam.position.set(V_WIDTH / 2, V_HEIGHT / 2, 0);
+
+
+
+
+
+
     }
-    
-    
 
     public void render(float deltaTime) {
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+       cam.update();
+        batch.setProjectionMatrix(cam.combined);
         ronderer.render();
-        
-        
+
+
         batch.begin();
         for (Entity e : player1Units) {
             batch.draw(splash, e.getX(), e.getY(), 50, 50);
         }
-        for(Entity e: player2Units) {
+        for (Entity e : player2Units) {
             batch.draw(splash, e.getX(), e.getY(), 50, 50);
         }
         //someone for the love of god put something in here so we know that the entire game can actually work
@@ -149,7 +143,6 @@ public class WorldRenderer {
 
         }
     }
-    
 
     /**
      * Finds which unit the player clicked. Checks if the player is selecting
