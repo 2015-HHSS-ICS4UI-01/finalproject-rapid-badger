@@ -38,7 +38,7 @@ public class WorldRenderer {
     private int count2;
     private Sprite figure;
     private Sprite figure2;
-    private boolean plusX, plusY;
+    private boolean plusX, plusY, sameX, sameY;
 
     public enum State {
 
@@ -111,12 +111,40 @@ public class WorldRenderer {
             int rand = randNum(1, 2);
             //if a wins random battle
             if (rand == 1) {
-
-                b.setUnits(0);
+                //removing the losing unit 
+                //by searching both arrays
+                int counter = 0;
+                for (Entity p1 : player1Units) {
+                    if (p1 == b) {
+                        player1Units.removeIndex(counter);
+                    }
+                    counter++;
+                }
+                counter = 0;
+                for (Entity p2 : player2Units) {
+                    if (p2 == b) {
+                        player2Units.removeIndex(counter);
+                    }
+                    counter++;
+                }
                 //if b wins random battle
             } else {
-
-                a.setUnits(0);
+                //removing the losing unit 
+                //by searching both arrays
+                int counter = 0;
+                for (Entity p1 : player1Units) {
+                    if (p1 == a) {
+                        player1Units.removeIndex(counter);
+                    }
+                    counter++;
+                }
+                counter = 0;
+                for (Entity p2 : player2Units) {
+                    if (p2 == a) {
+                        player2Units.removeIndex(counter);
+                    }
+                    counter++;
+                }
             }
 
         }
@@ -135,54 +163,60 @@ public class WorldRenderer {
             if (currentSelected == null) {
                 //Checks if player clicked enemy unit
                 for (Entity p1 : player1Units) {
-                    if(p1.setCollision(rect)) {
+                    if (p1.clicked(rect)) {
                         currentSelected = p1;
                         System.out.println("Selcted a unit");
                     }
-//                    if (p1.getX() <= x && p1.getWidth() >= x && p1.getY() <= y &&  p1.getHeight() >= y) {
-//                        currentSelected = p1;
-//                        System.out.println("You selected a unit");
-//                    }
                 }
                 //Checks if player clicked a friendly unit
                 for (Entity p2 : player2Units) {
-                    if(p2.setCollision(rect)) {
+                    if (p2.clicked(rect)) {
                         currentSelected = p2;
                         System.out.println("Selcted a unit");
-                    } else {
-                        currentSelected = null;
                     }
-//                    if (p2.getX() <= x && p2.getWidth() >= x && p2.getY() <= y &&  p2.getHeight() >= y ) {
-//                        currentSelected = p2;
-//                        System.out.println("You selected a unit");
-//                    } else {
-//                        currentSelected = null;
-//                    }
                 }
-            } else if (currentSelected != null) {
-                //Checking which way to move
-                if(rect.x < currentSelected.getX()) {
-                    
-                } else {
-                    
-                }
+            } else {
+//                if (x < currentSelected.getX()) {
+//                    plusX = false;
+//                } else {
+//                    plusX = true;
+//                }
+//                if (y < currentSelected.getY()) {
+//                    plusY = false;
+//                } else if (y > currentSelected.getY()) {
+//                    plusY = true;
+//                } else if (y == currentSelected.getY()) {
+//                    sameY = true;
+//                }
+//                
+//
+//                if (plusX && plusY) {
+//                    currentSelected.Move((int) currentSelected.getX() + 1, (int) currentSelected.getY() + 1);
+//                } else if (plusX && !plusY) {
+//                    currentSelected.Move((int) currentSelected.getX() + 1, (int) currentSelected.getY() - 1);
+//                } else if (!plusX && plusY) {
+//                    currentSelected.Move((int) currentSelected.getX() - 1, (int) currentSelected.getY() + 1);
+//                } else if (!plusX && !plusY) {
+//                    currentSelected.Move((int) currentSelected.getX() - 1, (int) currentSelected.getY() - 1);
+//                }
                 currentSelected.Move(x, y);
+                System.out.println("you have moved");
                 currentSelected = null;
-//                moved = true;
+                moved = true;
             }
         } else if (currentState == NOTHING) {
             //checks if player clicked on a unit
             for (Entity p1 : player1Units) {
-                if (p1.getX() <= x && p1.getWidth() >= x && p1.getY() <= y && y <= p1.getHeight()) {
+                if (p1.clicked(rect)) {
                     currentSelected = p1;
-                    System.out.println("You selectted the unit");
+                    System.out.println("Selected a unit");
                 }
             }
             //Checks if player clicked on a unit
             for (Entity p2 : player2Units) {
-                if (p2.getX() <= x && p2.getWidth() >= x && p2.getY() <= y && y <= p2.getHeight()) {
+                if (p2.clicked(rect)) {
                     currentSelected = p2;
-                    System.out.println("You selectted the unit");
+                    System.out.println("Selected a unit");
                 } else {
                     currentSelected = null;
                 }
@@ -190,12 +224,12 @@ public class WorldRenderer {
         } else if (currentState == ATTACKING) {
             if (currentSelected == null) {
                 for (Entity p1 : player1Units) {
-                    if (p1.getX() == 2 && p1.getY() == y && player1Turn) {
+                    if (p1.clicked(rect)) {
                         currentSelected = p1;
                     }
                 }
                 for (Entity p2 : player2Units) {
-                    if (p2.getX() == x && p2.getY() == y && player1Turn == false) {
+                    if (p2.clicked(rect) && player1Turn) {
                         currentSelected = p2;
                     } else {
                         currentSelected = null;
@@ -203,14 +237,12 @@ public class WorldRenderer {
                 }
             } else {
                 for (Entity p1 : player1Units) {
-                    if (p1.getX() == x && p1.getY() == y && !currentSelected.getPlayer().equals(p1.getPlayer())
-                            && !moved) {
+                    if (p1.clicked(rect) && !moved) {
                         battle(currentSelected, p1);
                     }
                 }
                 for (Entity p2 : player2Units) {
-                    if (p2.getX() == x && p2.getY() == y && !currentSelected.getPlayer().equals(p2.getPlayer())
-                            && !moved) {
+                    if (p2.clicked(rect) && !moved) {
                         battle(currentSelected, p2);
                     } else {
                         currentSelected = null;
@@ -257,13 +289,6 @@ public class WorldRenderer {
             alreadyPlaced = false;
         }
 
-//        if (currentState != PLACEMENT) {
-//            if (player1Turn) {
-//                System.out.println("player 1 clicked " + x + " " + y);
-//            } else {
-//                System.out.println("player 2 clicked " + x + " " + y);
-//            }
-//        }
 
     }
 

@@ -40,7 +40,7 @@ public class Entity {
         return units;
     }
     
-    public boolean setCollision(Rectangle rect) {
+    public boolean clicked(Rectangle rect) {
         if(rect.overlaps(place)) {
             return true;
         } else {
