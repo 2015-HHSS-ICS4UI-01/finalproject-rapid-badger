@@ -16,6 +16,7 @@ import static com.mygdx.game.WorldRenderer.State.MOVING;
 import static com.mygdx.game.WorldRenderer.State.NOTHING;
 import static com.mygdx.game.WorldRenderer.State.PLACEMENT;
 import com.mygdx.models.Entity;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -85,48 +86,63 @@ public class WorldRenderer {
      * @param b Enemy doing battle.
      */
     public void battle(Entity a, Entity b) {
+        System.out.println("did battle");
         //if b has more troops
         if (a.unitCount() < b.unitCount()) {
             //if a has more troops then it has as many troops as the difference between a's and b's troops
             b.setUnits(b.unitCount() - a.unitCount());
-            for (Entity e : player1Units) {
-                int loop = 0;
+            Iterator<Entity> it = player1Units.iterator();
+            while (it.hasNext()) {
+                Entity e = it.next();
                 if (e == a) {
-                    player1Units.removeIndex(loop);
+                    it.remove();
                 }
-                loop++;
             }
-            for (Entity e : player2Units) {
-                int loop = 0;
+            it = player2Units.iterator();
+            while (it.hasNext()) {
+                Entity e = it.next();
                 if (e == a) {
-                    player1Units.removeIndex(loop);
+                    it.remove();
                 }
-                loop++;
             }
             //if a has more troops
         } else if (b.unitCount() < a.unitCount()) {
             a.setUnits(a.unitCount() - b.unitCount());
-            b.setUnits(0);
+            Iterator<Entity> it = player1Units.iterator();
+            while (it.hasNext()) {
+                Entity e = it.next();
+                if (e == b) {
+                    it.remove();
+                }
+            }
+            it = player2Units.iterator();
+            while (it.hasNext()) {
+                Entity e = it.next();
+                if (e == b) {
+                    it.remove();
+                }
+            }
         } else {
             int rand = randNum(1, 2);
-            //if a wins random battle
+            //if A wins random battle
             if (rand == 1) {
                 //removing the losing unit 
                 //by searching both arrays
-                int counter = 0;
-                for (Entity p1 : player1Units) {
+                Iterator<Entity> it = player1Units.iterator();
+                while (it.hasNext()) {
+                    Entity p1 = it.next();
                     if (p1 == b) {
-                        player1Units.removeIndex(counter);
+                        it.remove();
                     }
-                    counter++;
                 }
-                counter = 0;
-                for (Entity p2 : player2Units) {
+                it = player2Units.iterator();
+                while (it.hasNext()) {
+                    Entity p2 = it.next();
                     if (p2 == b) {
-                        player2Units.removeIndex(counter);
+                        it.remove();
                     }
-                    counter++;
                 }
+                System.out.println("A won");
                 //if b wins random battle
             } else {
                 //removing the losing unit 
@@ -145,7 +161,9 @@ public class WorldRenderer {
                     }
                     counter++;
                 }
+                System.out.println("B won");
             }
+            System.out.println("Random");
 
         }
     }
@@ -188,7 +206,6 @@ public class WorldRenderer {
 //                } else if (y == currentSelected.getY()) {
 //                    sameY = true;
 //                }
-//                
 //
 //                if (plusX && plusY) {
 //                    currentSelected.Move((int) currentSelected.getX() + 1, (int) currentSelected.getY() + 1);
@@ -199,7 +216,9 @@ public class WorldRenderer {
 //                } else if (!plusX && !plusY) {
 //                    currentSelected.Move((int) currentSelected.getX() - 1, (int) currentSelected.getY() - 1);
 //                }
-                currentSelected.Move(x, y);
+                if (!moved) {
+                    currentSelected.Move(x, y);
+                }
                 System.out.println("you have moved");
                 currentSelected = null;
                 moved = true;
@@ -217,8 +236,6 @@ public class WorldRenderer {
                 if (p2.clicked(rect)) {
                     currentSelected = p2;
                     System.out.println("Selected a unit");
-                } else {
-                    currentSelected = null;
                 }
             }
         } else if (currentState == ATTACKING) {
@@ -229,23 +246,23 @@ public class WorldRenderer {
                     }
                 }
                 for (Entity p2 : player2Units) {
-                    if (p2.clicked(rect) && player1Turn) {
+                    if (p2.clicked(rect)) {
                         currentSelected = p2;
-                    } else {
-                        currentSelected = null;
                     }
                 }
             } else {
-                for (Entity p1 : player1Units) {
+                Iterator<Entity> it = player1Units.iterator();
+                while (it.hasNext()) {
+                    Entity p1 = it.next();
                     if (p1.clicked(rect) && !moved) {
                         battle(currentSelected, p1);
                     }
                 }
-                for (Entity p2 : player2Units) {
+                it = player2Units.iterator();
+                while (it.hasNext()) {
+                    Entity p2 = it.next();
                     if (p2.clicked(rect) && !moved) {
                         battle(currentSelected, p2);
-                    } else {
-                        currentSelected = null;
                     }
                 }
                 moved = true;
@@ -266,12 +283,14 @@ public class WorldRenderer {
             if (count + count2 != 10 && !alreadyPlaced) {
                 if (player1Turn) {
                     player1Units.add(new Entity(x, y, 50, 50));
-                    player1Units.get(count).setUnits(randNum(1, 5));
+//                    player1Units.get(count).setUnits(randNum(1, 5));
+                    player1Units.get(count).setUnits(5);
                     System.out.println("Player 1 placed an entity at " + x + " " + y);
                     count++;
                 } else {
                     player2Units.add(new Entity(x, y, 50, 50));
-                    player2Units.get(count2).setUnits(randNum(1, 5));
+//                    player2Units.get(count2).setUnits(randNum(1, 5));
+                    player2Units.get(count2).setUnits(5);
                     System.out.println("Player 2 placed an entity at " + x + " " + y);
                     count2++;
                 }
@@ -288,8 +307,6 @@ public class WorldRenderer {
             }
             alreadyPlaced = false;
         }
-
-
     }
 
     public void endTurn() {
@@ -309,6 +326,7 @@ public class WorldRenderer {
             System.out.println("It is player 2's turn.");
         }
         currentSelected = null;
+        moved = false;
     }
 
     public void resize(int width, int height) {
