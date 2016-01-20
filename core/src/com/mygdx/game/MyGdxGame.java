@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.mygdx.screens.MainMenu;
 import com.mygdx.screens.SplashArt;
 import com.mygdx.screens.SplashArt1;
 
@@ -13,6 +14,7 @@ public class MyGdxGame extends Game {
     
     private float delay = 2;
     private float delay1 = 4;
+    private float delayAgain = 2;
 
     @Override
     public void create() {
@@ -21,18 +23,23 @@ public class MyGdxGame extends Game {
         Timer.schedule(new Task() {
             @Override
             public void run() {
-                // Do your work
                 setScreen(screen2);
+//                Timer.schedule(new Task() {
+//                            @Override
+//                            public void run() {
+//                                setScreen(new MainMenu());
+//                            }
+//                        }, delayAgain);
                 Timer.schedule(new Task() {
                     @Override
                     public void run() {
-                        // Do your work
                         setScreen(new MainGame());
+                        
                     }
                 }, delay1);
             }
         }, delay);
-
+        
 
     }
 }

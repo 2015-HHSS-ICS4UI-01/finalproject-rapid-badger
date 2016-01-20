@@ -28,6 +28,8 @@ import com.mygdx.models.Entity;
  * @author thomt9963
  */
 public class MainGame implements Screen {
+    
+   
 
     private final int V_WIDTH = 800;
     private final int V_HEIGHT = 600;
@@ -68,7 +70,7 @@ public class MainGame implements Screen {
             renderer.setState(WorldRenderer.State.ATTACKING);
         } else if (Gdx.input.isKeyJustPressed(Keys.SPACE) && renderer.getState() != PLACEMENT) {
             renderer.endTurn();
-        }
+        } 
 
         renderer.render(deltaTime);
     }
