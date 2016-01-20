@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -21,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 
 /**
@@ -30,8 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 public class MainMenu implements Screen{
     
-     private static final String TITLE = "RISK-EH 2";
-     private Sprite splash;
     private Stage stage;
     private TextureAtlas atlas;
     private Skin skin;
@@ -39,14 +35,9 @@ public class MainMenu implements Screen{
     private TextButton buttonStart;
     private BitmapFont white;
     private SpriteBatch batch;
-    private Label heading;
 
     @Override
-    public void show() {
-        Texture splashTexture = new Texture("Splash.png");
-        splash = new Sprite(splashTexture);
-        splash.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        
+    public void show() {  
         stage = new Stage();
         
         Gdx.input.setInputProcessor(stage);
@@ -71,12 +62,8 @@ public class MainMenu implements Screen{
         
         
         buttonStart = new TextButton("START", buttonStyle);
-        buttonStart.pad(20);
+        buttonStart.pad(10);
         
-        // creating heading
-        LabelStyle headingStyle = new LabelStyle(white, Color.WHITE);
-        
-        heading = new Label(TITLE, headingStyle);
         
         table.add(buttonStart);
         table.debug();
@@ -85,17 +72,11 @@ public class MainMenu implements Screen{
     
 
     @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-       
+    public void render(float delta) {     
         
         stage.act(delta);
         
         stage.draw();
-        batch.begin();
-        splash.draw(batch);
-        batch.end();
     }
 
     @Override
