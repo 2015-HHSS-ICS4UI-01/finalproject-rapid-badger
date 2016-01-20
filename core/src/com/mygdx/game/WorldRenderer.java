@@ -194,27 +194,21 @@ public class WorldRenderer {
                     }
                 }
             } else {
-//                if (x < currentSelected.getX()) {
-//                    plusX = false;
-//                } else {
-//                    plusX = true;
+                
+//                if(x < currentSelected.getX()) {
+//                    currentSelected.Move((int)currentSelected.getX() - 10, (int)currentSelected.getY());
+//                    System.out.println("moved left");
+//                } else if (x > currentSelected.getX()){
+//                    currentSelected.Move((int)currentSelected.getX() + 10, (int)currentSelected.getY());
+//                    System.out.println("moved right");
 //                }
-//                if (y < currentSelected.getY()) {
-//                    plusY = false;
-//                } else if (y > currentSelected.getY()) {
-//                    plusY = true;
-//                } else if (y == currentSelected.getY()) {
-//                    sameY = true;
-//                }
-//
-//                if (plusX && plusY) {
-//                    currentSelected.Move((int) currentSelected.getX() + 1, (int) currentSelected.getY() + 1);
-//                } else if (plusX && !plusY) {
-//                    currentSelected.Move((int) currentSelected.getX() + 1, (int) currentSelected.getY() - 1);
-//                } else if (!plusX && plusY) {
-//                    currentSelected.Move((int) currentSelected.getX() - 1, (int) currentSelected.getY() + 1);
-//                } else if (!plusX && !plusY) {
-//                    currentSelected.Move((int) currentSelected.getX() - 1, (int) currentSelected.getY() - 1);
+//                
+//                if(y < currentSelected.getY()) {
+//                    currentSelected.Move((int)currentSelected.getX(), (int)currentSelected.getY() - 10);
+//                    System.out.println("moved down");
+//                } else if(y > currentSelected.getY()) {
+//                    currentSelected.Move((int)currentSelected.getX(), (int)currentSelected.getY() + 10);
+//                    System.out.println("moved up");
 //                }
                 if (!moved) {
                     currentSelected.Move(x, y);
@@ -259,7 +253,7 @@ public class WorldRenderer {
                         break;
                     }
                 }
-                
+
                 it = player2Units.iterator();
                 while (it.hasNext()) {
                     Entity p2 = it.next();
@@ -286,14 +280,14 @@ public class WorldRenderer {
             if (count + count2 != 10 && !alreadyPlaced) {
                 if (player1Turn) {
                     player1Units.add(new Entity(x, y, 50, 50));
-//                    player1Units.get(count).setUnits(randNum(1, 5));
-                    player1Units.get(count).setUnits(5);
+                    player1Units.get(count).setUnits(randNum(1, 5));
+                    //player1Units.get(count).setUnits(5);
                     System.out.println("Player 1 placed an entity at " + x + " " + y);
                     count++;
                 } else {
                     player2Units.add(new Entity(x, y, 50, 50));
-//                    player2Units.get(count2).setUnits(randNum(1, 5));
-                    player2Units.get(count2).setUnits(5);
+                    player2Units.get(count2).setUnits(randNum(1, 5));
+                    //player2Units.get(count2).setUnits(5);
                     System.out.println("Player 2 placed an entity at " + x + " " + y);
                     count2++;
                 }
