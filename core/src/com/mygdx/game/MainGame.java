@@ -64,7 +64,7 @@ public class MainGame implements Screen {
             renderer.setState(WorldRenderer.State.ATTACKING);
         } else if (Gdx.input.isKeyJustPressed(Keys.SPACE) && renderer.getState() != PLACEMENT) {
             renderer.endTurn();
-        }
+        } 
 
         renderer.render(deltaTime);
         
