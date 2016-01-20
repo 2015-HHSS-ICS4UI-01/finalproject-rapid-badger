@@ -67,7 +67,6 @@ public class MainGame implements Screen {
         } else if (Gdx.input.isKeyJustPressed(Keys.SPACE) && renderer.getState() != PLACEMENT) {
             renderer.endTurn();
         } 
-        renderer.checkIfWon();
         renderer.render(deltaTime);
         
         
