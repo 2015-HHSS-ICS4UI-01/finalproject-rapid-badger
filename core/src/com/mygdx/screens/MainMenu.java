@@ -66,7 +66,6 @@ public class MainMenu implements Screen{
         
         
         table.add(buttonStart);
-        table.debug();
         stage.addActor(table);
     }
     

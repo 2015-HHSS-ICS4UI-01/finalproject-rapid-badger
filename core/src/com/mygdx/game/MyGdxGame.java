@@ -13,7 +13,7 @@ public class MyGdxGame extends Game {
     private SplashArt screen2 = new SplashArt();
     private float delay = 2;
     private float delay1 = 4;
-    private float delayAgain = 2;
+    private float delayAgain = (float) 0.01;
 
     @Override
     public void create() {
@@ -23,12 +23,12 @@ public class MyGdxGame extends Game {
             @Override
             public void run() {
                 setScreen(screen2);
-//                Timer.schedule(new Task() {
-//                            @Override
-//                            public void run() {
-//                                setScreen(new MainMenu());
-//                            }
-//                        }, delayAgain);
+                Timer.schedule(new Task() {
+                            @Override
+                            public void run() {
+                                setScreen(new MainMenu());
+                            }
+                        }, delayAgain);
                 Timer.schedule(new Task() {
                     @Override
                     public void run() {
