@@ -5,6 +5,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,6 +19,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -34,8 +37,8 @@ import java.util.Random;
  */
 public class WorldRenderer {
 
-    private final int V_WIDTH = 800;
-    private final int V_HEIGHT = 600;
+    private final int V_WIDTH = 1280;
+    private final int V_HEIGHT = 1024;
     private SpriteBatch batch;
     private Entity lastSelected;
     private Entity currentSelected;
@@ -52,12 +55,21 @@ public class WorldRenderer {
     private TmxMapLoader loader;
     private TiledMap map;
     private HexagonalTiledMapRenderer ronderer;
+    private int width = V_WIDTH;
+    private int height = V_HEIGHT;
+    
+    private Sprite figure;
+    private Sprite figure2;
+    private boolean plusX, plusY, sameX, sameY;
+
    
 
     public enum State {
 
         MOVING, ATTACKING, PLACEMENT, NOTHING,
     }
+    
+    
 
     public WorldRenderer() {
         currentState = PLACEMENT;
@@ -87,20 +99,31 @@ public class WorldRenderer {
         ronderer.setView(cam);
 
 
-        cam.position.set(V_WIDTH / 2, V_HEIGHT / 2, 0);
-
-
-
-
+        cam.position.set(width/2 , height/2 , 0);
 
 
     }
 
     public void render(float deltaTime) {
-        Gdx.gl20.glClearColor(0, 0, 0, 1);
+        Gdx.gl20.glClearColor(0, 70, 91,75);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-       cam.update();
+        ronderer.setView(cam);
+        
+        
+        cam.update();
         batch.setProjectionMatrix(cam.combined);
+        if(Gdx.input.isKeyPressed(Keys.T)){
+            height+= 4;
+        }
+        if(Gdx.input.isKeyPressed(Keys.G)){
+            height-= 4;
+        }
+        if(Gdx.input.isKeyPressed(Keys.H)){
+            width+= 4;
+        }
+        if(Gdx.input.isKeyPressed(Keys.F)){
+            width-= 4;
+        }
         ronderer.render();
 
 
@@ -109,10 +132,11 @@ public class WorldRenderer {
             batch.draw(figure, e.getX(), e.getY(), e.getWidth(), e.getHeight());
         }
         for (Entity e : player2Units) {
-            batch.draw(splash, e.getX(), e.getY(), 50, 50);
+            batch.draw(figure2, e.getX(), e.getY(), 50, 50);
         }
         //someone for the love of god put something in here so we know that the entire game can actually work
         batch.end();
+        
 
     }
 

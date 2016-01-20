@@ -46,6 +46,7 @@ public class MainGame implements Screen {
         renderer = new WorldRenderer();
         
     }
+    
 
     @Override
     public void show() {
