@@ -51,12 +51,14 @@ public class MainGame implements Screen {
             renderer.click(clickX, clickY);
         } else if (Gdx.input.isKeyJustPressed(Keys.M)) {
             renderer.setState(WorldRenderer.State.MOVING);
+        } else if(Gdx.input.isKeyJustPressed(Keys.C)) {
+            renderer.clearSelected();
         } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
             renderer.setState(WorldRenderer.State.ATTACKING);
         } else if (Gdx.input.isKeyJustPressed(Keys.SPACE) && renderer.getState() != PLACEMENT) {
             renderer.endTurn();
         } 
-
+        renderer.checkIfWon();
         renderer.render(deltaTime);
     }
 
