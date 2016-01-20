@@ -8,7 +8,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -23,12 +26,13 @@ public class MainGame implements Screen {
     
    
 
-    private final int V_WIDTH = 800;
-    private final int V_HEIGHT = 600;
+   
     private WorldRenderer renderer;
     private int clickX;
     private int clickY;
     private boolean buttonDown;
+    private Sprite splash;
+    private SpriteBatch batch;
 
     public MainGame() {
         renderer = new WorldRenderer();
@@ -36,6 +40,11 @@ public class MainGame implements Screen {
 
     @Override
     public void show() {
+        batch = new SpriteBatch();
+        
+        Texture splashTexture = new Texture("UI.png");
+        splash = new Sprite(splashTexture);
+        splash.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
     }
 
@@ -58,6 +67,13 @@ public class MainGame implements Screen {
         }
 
         renderer.render(deltaTime);
+        
+        
+        
+        
+        batch.begin();
+        splash.draw(batch);
+        batch.end();
     }
 
     @Override
