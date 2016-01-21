@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
@@ -28,7 +27,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import static com.mygdx.game.WorldRenderer.State.ATTACKING;
 import static com.mygdx.game.WorldRenderer.State.MOVING;
 import static com.mygdx.game.WorldRenderer.State.NOTHING;
-import static com.mygdx.game.WorldRenderer.State.PLACEMENT;
+import static com.mygdx.game.WorldRenderer.State.PLACING;
 import com.mygdx.models.Entity;
 import java.util.Iterator;
 import java.util.Random;
@@ -67,11 +66,11 @@ public class WorldRenderer {
 
     public enum State {
 
-        MOVING, ATTACKING, PLACEMENT, NOTHING,
+        MOVING, ATTACKING, PLACING, NOTHING,
     }
 
     public WorldRenderer() {
-        currentState = PLACEMENT;
+        currentState = PLACING;
         moved = false;
         player1Units = new Array<Entity>();
         player2Units = new Array<Entity>();
@@ -352,7 +351,7 @@ public class WorldRenderer {
                 }
                 moved = true;
             }
-        } else if (currentState == PLACEMENT) {
+        } else if (currentState == PLACING) {
             for (Entity e : player1Units) {
                 if (e.clicked(rect)) {
                     System.out.println("There is already a unit there");
@@ -423,9 +422,9 @@ public class WorldRenderer {
     }
 
     public void checkIfWon() {
-        if (player1Units.size == 0 && currentState != PLACEMENT) {
+        if (player1Units.size == 0 && currentState != PLACING) {
             player2Won = true;
-        } else if (player2Units.size == 0 && currentState != PLACEMENT) {
+        } else if (player2Units.size == 0 && currentState != PLACING) {
             player1Won = true;
         }
     }

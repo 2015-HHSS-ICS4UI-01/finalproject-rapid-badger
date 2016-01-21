@@ -22,7 +22,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import static com.mygdx.game.WorldRenderer.State.PLACEMENT;
+import static com.mygdx.game.WorldRenderer.State.PLACING;
 import com.mygdx.models.Entity;
 
 /**
@@ -77,7 +77,7 @@ public class MainGame implements Screen {
             renderer.clearSelected();
         } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
             renderer.setState(WorldRenderer.State.ATTACKING);
-        } else if (Gdx.input.isKeyJustPressed(Keys.SPACE) && renderer.getState() != PLACEMENT) {
+        } else if (Gdx.input.isKeyJustPressed(Keys.SPACE) && renderer.getState() != PLACING) {
             renderer.endTurn();
         }
         renderer.checkIfWon();
