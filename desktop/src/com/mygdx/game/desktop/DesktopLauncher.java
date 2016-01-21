@@ -11,6 +11,7 @@ public class DesktopLauncher {
          config.title = "Risk-EH 2";
          config.width = 1280;
          config.height = 1024;
+         config.fullscreen = true;
         new LwjglApplication(new MyGdxGame(), config);
        
     }

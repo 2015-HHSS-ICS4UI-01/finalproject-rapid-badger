@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -33,7 +34,7 @@ import java.util.Random;
 
 /**
  *
- * @author kampn2687
+ * @author johns6971
  */
 public class WorldRenderer {
 
@@ -61,8 +62,7 @@ public class WorldRenderer {
     private Sprite figure;
     private Sprite figure2;
     private boolean plusX, plusY, sameX, sameY;
-
-   
+     private BitmapFont font;
 
     public enum State {
 
@@ -129,10 +129,15 @@ public class WorldRenderer {
 
         batch.begin();
         for (Entity e : player1Units) {
+            //display entity's place
             batch.draw(figure, e.getX(), e.getY(), e.getWidth(), e.getHeight());
+            //display entity's unit count
+            font.draw(batch, e.unitCount() + "", e.getX() + (e.getWidth() / 2), e.getY() + (e.getHeight() / 2));
         }
         for (Entity e : player2Units) {
-            batch.draw(figure2, e.getX(), e.getY(), 50, 50);
+            //display entity's place
+            batch.draw(figure2, e.getX(), e.getY(), e.getWidth(), e.getHeight());
+            font.draw(batch, e.unitCount() + "", e.getX() + (e.getWidth() / 2), e.getY() + (e.getHeight() / 2));
         }
         //someone for the love of god put something in here so we know that the entire game can actually work
         batch.end();
@@ -143,8 +148,8 @@ public class WorldRenderer {
     /**
      * Determines which side wins a battle.
      *
-     * @param a Friendly doing battle.
-     * @param b Enemy doing battle.
+     * @param a entity doing battle.
+     * @param b entity doing battle.
      */
     public void battle(Entity a, Entity b) {
         System.out.println("did battle");
@@ -203,6 +208,11 @@ public class WorldRenderer {
                         it.remove();
                     }
                 }
+                 a.setUnits((int)a.unitCount()/2);
+                 //if after the above division the unit count is rounded to zero
+                if(a.unitCount() == 0) {
+                    a.setUnits(1);
+                }
                 System.out.println("A won");
                 //if b wins random battle
             } else {
@@ -223,6 +233,11 @@ public class WorldRenderer {
                     counter++;
                 }
                 System.out.println("B won");
+                b.setUnits((int)b.unitCount()/2);
+                //if after the above division the unit count is rounded to zero
+                if(b.unitCount() == 0) {
+                    b.setUnits(1);
+                }
             }
             System.out.println("Random");
 
@@ -255,28 +270,6 @@ public class WorldRenderer {
                     }
                 }
             } else {
-//                if (x < currentSelected.getX()) {
-//                    plusX = false;
-//                } else {
-//                    plusX = true;
-//                }
-//                if (y < currentSelected.getY()) {
-//                    plusY = false;
-//                } else if (y > currentSelected.getY()) {
-//                    plusY = true;
-//                } else if (y == currentSelected.getY()) {
-//                    sameY = true;
-//                }
-//
-//                if (plusX && plusY) {
-//                    currentSelected.Move((int) currentSelected.getX() + 1, (int) currentSelected.getY() + 1);
-//                } else if (plusX && !plusY) {
-//                    currentSelected.Move((int) currentSelected.getX() + 1, (int) currentSelected.getY() - 1);
-//                } else if (!plusX && plusY) {
-//                    currentSelected.Move((int) currentSelected.getX() - 1, (int) currentSelected.getY() + 1);
-//                } else if (!plusX && !plusY) {
-//                    currentSelected.Move((int) currentSelected.getX() - 1, (int) currentSelected.getY() - 1);
-//                }
                 if (!moved) {
                     currentSelected.Move(x, y);
                 }
@@ -315,15 +308,20 @@ public class WorldRenderer {
                 Iterator<Entity> it = player1Units.iterator();
                 while (it.hasNext()) {
                     Entity p1 = it.next();
-                    if (p1.clicked(rect) && !moved) {
+                    //checks if the player has clicked to attack and the entity they are attacking are not their own units
+                    if (p1.clicked(rect) && !moved && !p1.getPlayer().equals(currentSelected.getPlayer())) {
                         battle(currentSelected, p1);
+                        break;
                     }
                 }
+
                 it = player2Units.iterator();
                 while (it.hasNext()) {
                     Entity p2 = it.next();
-                    if (p2.clicked(rect) && !moved) {
+                    //checks if the player has clicked to attack and the entity they are attacking are not their own units
+                    if (p2.clicked(rect) && !moved && !p2.getPlayer().equals(currentSelected.getPlayer())) {
                         battle(currentSelected, p2);
+                        break;
                     }
                 }
                 moved = true;
@@ -344,15 +342,15 @@ public class WorldRenderer {
             if (count + count2 != 10 && !alreadyPlaced) {
                 if (player1Turn) {
                     player1Units.add(new Entity(x, y, 50, 50));
-//                    player1Units.get(count).setUnits(randNum(1, 5));
-                    player1Units.get(count).setUnits(5);
-                    System.out.println("Player 1 placed an entity at " + x + " " + y);
+                    player1Units.get(count).setUnits(randNum(2, 5));
+                    //player1Units.get(count).setUnits(5);
+                    System.out.println("Player 1's new unit has " + player1Units.get(count).unitCount() + " units");
                     count++;
                 } else {
                     player2Units.add(new Entity(x, y, 50, 50));
-//                    player2Units.get(count2).setUnits(randNum(1, 5));
-                    player2Units.get(count2).setUnits(5);
-                    System.out.println("Player 2 placed an entity at " + x + " " + y);
+                    player2Units.get(count2).setUnits(randNum(2, 5));
+                    //player2Units.get(count2).setUnits(5);
+                    System.out.println("Player 2's new unit has " + player2Units.get(count2).unitCount() + " units");
                     count2++;
                 }
                 for (Entity e : player1Units) {
@@ -388,6 +386,21 @@ public class WorldRenderer {
         }
         currentSelected = null;
         moved = false;
+    }
+
+    /**
+     * Sets currentSelected to null so player does not have a unit selected.
+     */
+    public void clearSelected() {
+        currentSelected = null;
+    }
+    
+    public void checkIfWon() {
+        if(player1Units.size == 0) {
+            System.out.println("player 2 won");
+        } else if(player2Units.size == 0) {
+            System.out.println("player 1 won");
+        }
     }
 
     public void resize(int width, int height) {

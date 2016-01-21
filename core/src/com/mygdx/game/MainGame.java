@@ -12,6 +12,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -31,12 +33,13 @@ public class MainGame implements Screen {
     
    
 
-    private final int V_WIDTH = 800;
-    private final int V_HEIGHT = 600;
+   
     private WorldRenderer renderer;
     private int clickX;
     private int clickY;
     private boolean buttonDown;
+    private Sprite splash;
+    private SpriteBatch batch;
 
 
 
@@ -50,9 +53,12 @@ public class MainGame implements Screen {
 
     @Override
     public void show() {
-
- 
-
+        batch = new SpriteBatch();
+        
+        Texture splashTexture = new Texture("UI.png");
+        splash = new Sprite(splashTexture);
+        splash.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        
     }
 
     @Override
@@ -67,13 +73,22 @@ public class MainGame implements Screen {
             renderer.click(clickX, clickY);
         } else if (Gdx.input.isKeyJustPressed(Keys.M)) {
             renderer.setState(WorldRenderer.State.MOVING);
+        } else if(Gdx.input.isKeyJustPressed(Keys.C)) {
+            renderer.clearSelected();
         } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
             renderer.setState(WorldRenderer.State.ATTACKING);
         } else if (Gdx.input.isKeyJustPressed(Keys.SPACE) && renderer.getState() != PLACEMENT) {
             renderer.endTurn();
         } 
-
+        renderer.checkIfWon();
         renderer.render(deltaTime);
+        
+        
+        
+        
+        batch.begin();
+        splash.draw(batch);
+        batch.end();
     }
 
     @Override
