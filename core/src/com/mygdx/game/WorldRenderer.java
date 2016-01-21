@@ -221,9 +221,9 @@ public class WorldRenderer {
                         it.remove();
                     }
                 }
-                 a.setUnits((int)a.unitCount()/2);
-                 //if after the above division the unit count is rounded to zero
-                if(a.unitCount() == 0) {
+                a.setUnits((int) a.unitCount() / 2);
+                //if after the above division the unit count is rounded to zero
+                if (a.unitCount() == 0) {
                     a.setUnits(1);
                 }
                 System.out.println("A won");
@@ -246,9 +246,9 @@ public class WorldRenderer {
                     counter++;
                 }
                 System.out.println("B won");
-                b.setUnits((int)b.unitCount()/2);
+                b.setUnits((int) b.unitCount() / 2);
                 //if after the above division the unit count is rounded to zero
-                if(b.unitCount() == 0) {
+                if (b.unitCount() == 0) {
                     b.setUnits(1);
                 }
             }
@@ -379,6 +379,7 @@ public class WorldRenderer {
             }
             alreadyPlaced = false;
         }
+        checkIfWon();
     }
 
     public void endTurn() {
@@ -407,14 +408,14 @@ public class WorldRenderer {
     public void clearSelected() {
         currentSelected = null;
     }
-    
+
     public void checkIfWon() {
         if(player1Units.size == 0) {
-            System.out.println("player 2 won");
+                System.out.println("player 2 won");
         } else if(player2Units.size == 0) {
-            System.out.println("player 1 won");
+                System.out.println("player 1 won");
+            }
         }
-    }
 
     public void resize(int width, int height) {
         port.update(width, height);
