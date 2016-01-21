@@ -215,11 +215,20 @@ public class WorldRenderer {
                 }
             } else {
                 if (!moved) {
-                    currentSelected.Move(x, y);
+                    //will only move unit if the player is moving their own units
+                    if(currentSelected.getPlayer().equals("player1") && player1Turn) {
+                       currentSelected.Move(x, y); 
+                       moved = true;
+                       System.out.println("you have moved");
+                       //will only move unit if the player is moving their own units
+                    } else if (currentSelected.getPlayer().equals("player2") && !player1Turn) {
+                        currentSelected.Move(x, y);
+                        moved = true;
+                        System.out.println("you have moved");
+                    }
+                    
                 }
-                System.out.println("you have moved");
                 currentSelected = null;
-                moved = true;
             }
         } else if (currentState == NOTHING) {
             //checks if player clicked on a unit
