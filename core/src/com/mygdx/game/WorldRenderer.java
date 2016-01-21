@@ -5,14 +5,26 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import static com.mygdx.game.WorldRenderer.State.ATTACKING;
 import static com.mygdx.game.WorldRenderer.State.MOVING;
 import static com.mygdx.game.WorldRenderer.State.NOTHING;
@@ -27,8 +39,8 @@ import java.util.Random;
  */
 public class WorldRenderer {
 
-    private final int V_WIDTH = 800;
-    private final int V_HEIGHT = 600;
+    private final int V_WIDTH = 1280;
+    private final int V_HEIGHT = 1024;
     private SpriteBatch batch;
     private Entity lastSelected;
     private Entity currentSelected;
@@ -39,6 +51,16 @@ public class WorldRenderer {
     private boolean player1Turn, moved, alreadyPlaced;
     private int count;
     private int count2;
+    private Sprite splash;
+    //rendering in cam variables
+    private OrthographicCamera cam;
+    private Viewport port;
+    private TmxMapLoader loader;
+    private TiledMap map;
+    private HexagonalTiledMapRenderer ronderer;
+    private int width = V_WIDTH;
+    private int height = V_HEIGHT;
+    //variables for the units
     private Sprite figure;
     private Sprite figure2;
     private boolean plusX, plusY, sameX, sameY;
@@ -48,6 +70,8 @@ public class WorldRenderer {
 
         MOVING, ATTACKING, PLACEMENT, NOTHING,
     }
+    
+    
 
     public WorldRenderer() {
         currentState = PLACEMENT;
@@ -66,12 +90,57 @@ public class WorldRenderer {
         alreadyPlaced = false;
         font = new BitmapFont();
         font.setColor(Color.BLUE);
+
+
+
+
+        //sets the cam to an orthagraphic camera
+        cam = new OrthographicCamera();
+        //adjusts the viewport to be in the middle of the screen
+        port = new FitViewport(V_WIDTH, V_HEIGHT, cam);
+        //loads in the map and sets map to the loaded tiled map
+        loader = new TmxMapLoader();
+        map = loader.load("map.tmx");
+        //makes the renderer a hexagonal renderer
+        ronderer = new HexagonalTiledMapRenderer(map, batch);
+        //sets the cam's view to the camera
+        ronderer.setView(cam);
+
+        //sets the cam's position to the middle of the screen
+        cam.position.set(width/2 , height/2 , 0);
+
+
     }
 
     public void render(float deltaTime) {
-        Gdx.gl20.glClearColor(0, 0, 0, 1);
+        //sets background colour
+        Gdx.gl20.glClearColor(0.5f, 0.5f, 0.5f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //sets the render's view to look through cam 
+        ronderer.setView(cam);
+        //key bindings to move the camera's position
+        if(Gdx.input.isKeyPressed(Keys.T)){
+            height+= 14;
+        }
+        if(Gdx.input.isKeyPressed(Keys.G)){
+            height-= 14;
+        }
+        if(Gdx.input.isKeyPressed(Keys.H)){
+            width+= 14;
+        }
+        if(Gdx.input.isKeyPressed(Keys.F)){
+            width-= 14;
+        }
+        //sets the position at which the camera will see after any movement has happend
+        cam.position.x = width/2;
+        cam.position.y = height/2;
+        //updates the camera
+        cam.update();
+        batch.setProjectionMatrix(cam.combined);
+        //renders the tiled map
+        ronderer.render();
 
+        //starts the batch for the units
         batch.begin();
         for (Entity e : player1Units) {
             //display entity's place
@@ -84,8 +153,8 @@ public class WorldRenderer {
             batch.draw(figure2, e.getX(), e.getY(), e.getWidth(), e.getHeight());
             font.draw(batch, e.unitCount() + "", e.getX() + (e.getWidth() / 2), e.getY() + (e.getHeight() / 2));
         }
-        //someone for the love of god put something in here so we know that the entire game can actually work
         batch.end();
+        
 
     }
 
@@ -358,6 +427,7 @@ public class WorldRenderer {
         }
 
     public void resize(int width, int height) {
+        port.update(width, height);
     }
 
     public Array<Entity> getPlayer1units() {
