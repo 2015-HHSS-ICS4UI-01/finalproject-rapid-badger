@@ -27,7 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
  * @author thomt9963
  */
 public class MainMenu implements Screen{
-    
+
     private Stage stage;
     private TextureAtlas atlas;
     private Skin skin;
@@ -37,21 +37,21 @@ public class MainMenu implements Screen{
     private SpriteBatch batch;
 
     @Override
-    public void show() {  
+    public void show() {
         stage = new Stage();
-        
+
         Gdx.input.setInputProcessor(stage);
-        
+
         atlas = new TextureAtlas("button.pack");
         skin = new Skin(atlas);
-        
+
         table = new Table(skin);
         table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-       // table.background(new TextureRegionDrawable(new TextureRegion("Splash.png")));
-        
+        // table.background(new TextureRegionDrawable(new TextureRegion("Splash.png")));
+
         // creating font 
         white = new BitmapFont(Gdx.files.internal("font.fnt"),false);
-        
+
         // creating buttons
         TextButtonStyle buttonStyle = new TextButtonStyle();
         buttonStyle.up = skin.getDrawable("button.up");
@@ -59,24 +59,24 @@ public class MainMenu implements Screen{
         buttonStyle.pressedOffsetX = 1;
         buttonStyle.pressedOffsetY = -1;
         buttonStyle.font = white;
-        
-        
+
+
         buttonStart = new TextButton("START", buttonStyle);
         buttonStart.pad(10);
-        
-        
+
+
         table.add(buttonStart);
         stage.addActor(table);
     }
-    
+
 
     @Override
-    public void render(float delta) {     
+    public void render(float delta) {
         
-        stage.act(delta);
-        
-        stage.draw();
-    }
+            stage.act(delta);
+
+            stage.draw();
+        }
 
     @Override
     public void resize(int width, int height) {
