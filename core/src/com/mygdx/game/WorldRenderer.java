@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -23,6 +24,7 @@ import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -65,6 +67,8 @@ public class WorldRenderer {
     private boolean plusX, plusY, sameX, sameY, player1Won, player2Won;
     private BitmapFont font;
     private BitmapFont font2;
+   // TiledMapTileLayer layer = (TiledMapTileLayer)map.getLayers().get(0);
+    TiledMapTileLayer layer;
 
     public enum State {
 
@@ -108,9 +112,12 @@ public class WorldRenderer {
 
         //sets the cam's position to the middle of the screen
         cam.position.set(width / 2, height / 2, 0);
-
-
+        
+        //MapLayer layer = map.getLayers().get(0);
+        
+        layer = (TiledMapTileLayer)map.getLayers().get(0);
     }
+    
 
     public void render(float deltaTime) {
         //sets background colour
@@ -161,7 +168,14 @@ public class WorldRenderer {
         }
         batch.end();
 
-
+        
+        if(Gdx.input.isTouched()){
+            Vector3 touch = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touch);
+            
+            System.out.println("Click (" + touch.x + ", " + touch.y + ")");
+        }
+        
     }
 
     /**
@@ -369,6 +383,13 @@ public class WorldRenderer {
             }
             if (count + count2 != 10 && !alreadyPlaced) {
                 if (player1Turn) {
+                    TiledMapTileLayer.Cell box = layer.getCell(x,y);
+                    TiledMapTile tileBox = box.getTile();
+                    float boxX = (int)tileBox.getOffsetX();
+                    float boxY = (int)tileBox.getOffsetX(); 
+                    System.out.println("cooordinate og the tile X" +boxX);
+                    System.out.println("cooordinate og the tile Y" +boxY);
+                   // if(x == layer.getCell(x,y).getX && y == layer.getCell(x,y).getY)
                     player1Units.add(new Entity(x, y, 50, 50));
                     player1Units.get(count).setUnits(randNum(2, 5));
                     //player1Units.get(count).setUnits(5);
@@ -462,4 +483,8 @@ public class WorldRenderer {
         int n = rand.nextInt(max) + min;
         return n;
     }
+//    public TiledMapTileLayer.Cell getCell(int x, int y){
+//        return TiledMap.Cell(x,y);
+//    }
+    
 }
