@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -30,7 +29,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import static com.mygdx.game.WorldRenderer.State.ATTACKING;
 import static com.mygdx.game.WorldRenderer.State.MOVING;
 import static com.mygdx.game.WorldRenderer.State.NOTHING;
-import static com.mygdx.game.WorldRenderer.State.PLACEMENT;
+import static com.mygdx.game.WorldRenderer.State.PLACING;
 import com.mygdx.models.Entity;
 import java.util.Iterator;
 import java.util.Random;
@@ -44,7 +43,6 @@ public class WorldRenderer {
     private final int V_WIDTH = 1280;
     private final int V_HEIGHT = 1024;
     private SpriteBatch batch;
-    private Entity lastSelected;
     private Entity currentSelected;
     private Array<Entity> player1Units;
     private Array<Entity> player2Units;
@@ -53,7 +51,6 @@ public class WorldRenderer {
     private boolean player1Turn, moved, alreadyPlaced;
     private int count;
     private int count2;
-    private Sprite splash;
     //rendering in cam variables
     private OrthographicCamera cam;
     private Viewport port;
@@ -65,18 +62,17 @@ public class WorldRenderer {
     //variables for the units
     private Sprite figure;
     private Sprite figure2;
-    private boolean plusX, plusY, sameX, sameY;
+    private boolean plusX, plusY, sameX, sameY, player1Won, player2Won;
     private BitmapFont font;
+    private BitmapFont font2;
 
     public enum State {
 
-        MOVING, ATTACKING, PLACEMENT, NOTHING,
+        MOVING, ATTACKING, PLACING, NOTHING,
     }
-    
-    
 
     public WorldRenderer() {
-        currentState = PLACEMENT;
+        currentState = PLACING;
         moved = false;
         player1Units = new Array<Entity>();
         player2Units = new Array<Entity>();
@@ -92,10 +88,11 @@ public class WorldRenderer {
         alreadyPlaced = false;
         font = new BitmapFont();
         font.setColor(Color.BLUE);
-        
-        
+        font2 = new BitmapFont();
+        font2.setColor(Color.RED);
 
-
+        player1Won = false;
+        player2Won = false;
 
         //sets the cam to an orthagraphic camera
         cam = new OrthographicCamera();
@@ -110,7 +107,7 @@ public class WorldRenderer {
         ronderer.setView(cam);
 
         //sets the cam's position to the middle of the screen
-        cam.position.set(width/2 , height/2 , 0);
+        cam.position.set(width / 2, height / 2, 0);
 
 
     }
@@ -122,21 +119,21 @@ public class WorldRenderer {
         //sets the render's view to look through cam 
         ronderer.setView(cam);
         //key bindings to move the camera's position
-        if(Gdx.input.isKeyPressed(Keys.T)){
-            height+= 14;
+        if (Gdx.input.isKeyPressed(Keys.T)) {
+            height += 14;
         }
-        if(Gdx.input.isKeyPressed(Keys.G)){
-            height-= 14;
+        if (Gdx.input.isKeyPressed(Keys.G)) {
+            height -= 14;
         }
-        if(Gdx.input.isKeyPressed(Keys.H)){
-            width+= 14;
+        if (Gdx.input.isKeyPressed(Keys.H)) {
+            width += 14;
         }
-        if(Gdx.input.isKeyPressed(Keys.F)){
-            width-= 14;
+        if (Gdx.input.isKeyPressed(Keys.F)) {
+            width -= 14;
         }
         //sets the position at which the camera will see after any movement has happend
-        cam.position.x = width/2;
-        cam.position.y = height/2;
+        cam.position.x = width / 2;
+        cam.position.y = height / 2;
         //updates the camera
         cam.update();
         batch.setProjectionMatrix(cam.combined);
@@ -157,8 +154,13 @@ public class WorldRenderer {
             
             font.draw(batch, e.unitCount() + "", e.getX() + (e.getWidth() / 2), e.getY() + (e.getHeight() / 2));
         }
+        if (player1Won) {
+            font2.draw(batch, "Player 1 won the game", Gdx.graphics.getHeight() / 2, Gdx.graphics.getWidth() / 2);
+        } else if (player2Won) {
+            font2.draw(batch, "Player 2 won the game", Gdx.graphics.getHeight() / 2, Gdx.graphics.getWidth() / 2);
+        }
         batch.end();
-        
+
 
     }
 
@@ -288,11 +290,20 @@ public class WorldRenderer {
                 }
             } else {
                 if (!moved) {
-                    currentSelected.Move(x, y);
+                    //will only move unit if the player is moving their own units
+                    if (currentSelected.getPlayer().equals("player1") && player1Turn) {
+                        currentSelected.Move(x, y);
+                        moved = true;
+                        System.out.println("you have moved");
+                        //will only move unit if the player is moving their own units
+                    } else if (currentSelected.getPlayer().equals("player2") && !player1Turn) {
+                        currentSelected.Move(x, y);
+                        moved = true;
+                        System.out.println("you have moved");
+                    }
+
                 }
-                System.out.println("you have moved");
                 currentSelected = null;
-                moved = true;
             }
         } else if (currentState == NOTHING) {
             //checks if player clicked on a unit
@@ -343,15 +354,15 @@ public class WorldRenderer {
                 }
                 moved = true;
             }
-        } else if (currentState == PLACEMENT) {
+        } else if (currentState == PLACING) {
             for (Entity e : player1Units) {
-                if (e.getX() == x && e.getY() == y) {
+                if (e.clicked(rect)) {
                     System.out.println("There is already a unit there");
                     alreadyPlaced = true;
                 }
             }
             for (Entity e : player2Units) {
-                if (e.getX() == x && e.getY() == y) {
+                if (e.clicked(rect)) {
                     System.out.println("There is already a unit there");
                     alreadyPlaced = true;
                 }
@@ -414,12 +425,12 @@ public class WorldRenderer {
     }
 
     public void checkIfWon() {
-        if(player1Units.size == 0) {
-                System.out.println("player 2 won");
-        } else if(player2Units.size == 0) {
-                System.out.println("player 1 won");
-            }
+        if (player1Units.size == 0 && currentState != PLACING) {
+            player2Won = true;
+        } else if (player2Units.size == 0 && currentState != PLACING) {
+            player1Won = true;
         }
+    }
 
     public void resize(int width, int height) {
         port.update(width, height);
