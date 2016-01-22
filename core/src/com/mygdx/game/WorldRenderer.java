@@ -17,6 +17,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
@@ -90,7 +92,8 @@ public class WorldRenderer {
         alreadyPlaced = false;
         font = new BitmapFont();
         font.setColor(Color.BLUE);
-
+        
+        
 
 
 
@@ -151,6 +154,7 @@ public class WorldRenderer {
         for (Entity e : player2Units) {
             //display entity's place
             batch.draw(figure2, e.getX(), e.getY(), e.getWidth(), e.getHeight());
+            
             font.draw(batch, e.unitCount() + "", e.getX() + (e.getWidth() / 2), e.getY() + (e.getHeight() / 2));
         }
         batch.end();
