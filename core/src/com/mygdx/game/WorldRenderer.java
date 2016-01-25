@@ -69,6 +69,8 @@ public class WorldRenderer {
     private BitmapFont font2;
    // TiledMapTileLayer layer = (TiledMapTileLayer)map.getLayers().get(0);
     TiledMapTileLayer layer;
+    int xGrid;
+    int yGrid;
 
     public enum State {
 
@@ -115,6 +117,8 @@ public class WorldRenderer {
         //MapLayer layer = map.getLayers().get(0);
         
         layer = (TiledMapTileLayer)map.getLayers().get(0);
+        
+        
     }
     
 
@@ -374,19 +378,22 @@ public class WorldRenderer {
             }
             if (count + count2 != 10 && !alreadyPlaced) {
                 if (player1Turn) {
-                    TiledMapTileLayer.Cell box = layer.getCell(x,y);
-                    TiledMapTile tileBox = box.getTile();
-                    float boxX = (int)tileBox.getOffsetX();
-                    float boxY = (int)tileBox.getOffsetX(); 
-                    System.out.println("cooordinate og the tile X" +boxX);
-                    System.out.println("cooordinate og the tile Y" +boxY);
-                   // if(x == layer.getCell(x,y).getX && y == layer.getCell(x,y).getY)
-                    player1Units.add(new Entity(x, y, 50, 50));
+                    xGrid = (int)(x/40);
+                    yGrid = (int)y/45;
+                    TiledMapTileLayer.Cell box = layer.getCell(xGrid,yGrid);
+                    System.out.println("cooordinate og the tile X" +xGrid);
+                    System.out.println("cooordinate og the tile Y" +yGrid);
+                    player1Units.add(new Entity((xGrid*40 + 10), (yGrid*45 + 20), 50, 50));
                     player1Units.get(count).setUnits(randNum(2, 5));
                     //player1Units.get(count).setUnits(5);
                     count++;
                 } else {
-                    player2Units.add(new Entity(x, y, 50, 50));
+                    xGrid = (int)(x/40);
+                    yGrid = (int)y/45;
+                    TiledMapTileLayer.Cell box = layer.getCell(xGrid,yGrid);
+                    System.out.println("cooordinate og the tile X" +xGrid);
+                    System.out.println("cooordinate og the tile Y" +yGrid);
+                    player2Units.add(new Entity((xGrid*40 + 10), (yGrid*45 + 20), 50, 50));
                     player2Units.get(count2).setUnits(randNum(2, 5));
                     //player2Units.get(count2).setUnits(5);
                     count2++;
